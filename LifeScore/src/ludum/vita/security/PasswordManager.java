@@ -1,4 +1,4 @@
-package com.fourh.security;
+package ludum.vita.security;
 
 import java.util.ArrayList;
 import java.util.Random;

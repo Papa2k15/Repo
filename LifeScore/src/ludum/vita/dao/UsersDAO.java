@@ -1,38 +1,44 @@
 package ludum.vita.dao;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Random;
 
 import ludum.vita.beans.UserBean;
 import ludum.vita.beans.loaders.UserLoader;
 import ludum.vita.dbtools.DatabaseTool;
+import ludum.vita.security.PasswordManager;
 
-import com.fourh.security.PasswordManager;
 //TODO 
-public class UserDatabaseDAO {
+public class UsersDAO {
 		
 		private DatabaseFactory factory;
 		private PasswordManager p;
 		private UserLoader userloader = new UserLoader();
 
-		public UserDatabaseDAO(DatabaseFactory factory) {
+		public UsersDAO(DatabaseFactory factory) {
 			this.factory = factory;
 			p = PasswordManager.getPasswordConfiguration();
 		}
 		
 		public long addUser(UserBean ubean) throws Exception {
+			String LSUIDGen = getLSUID(ubean);
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
 				conn = factory.getConnection();
-				ps = conn.prepareStatement("INSERT INTO users (fName, lName, uName, pWord) VALUES (?,?,?,?)");
-				ps.setString(1, ubean.getFirstName());
-				ps.setString(2, ubean.getLastName());
-				ps.setString(3, ubean.getUserName());
-				ps.setString(4, p.securePassword(ubean.getPassword()));
+				ps = conn.prepareStatement("INSERT INTO users (LSUID, firstName, lastName, userName, password, email) VALUES (?,?,?,?,?,?)");
+				ps.setString(1, LSUIDGen);
+				ps.setString(2, ubean.getFirstName());
+				ps.setString(3, ubean.getLastName());
+				ps.setString(4, ubean.getUserName());
+				ps.setString(5, p.securePassword(ubean.getPassword()));
+				ps.setString(6, ubean.getEmail());
 				ps.executeUpdate();
 				ps.close();
 				return DatabaseTool.getLastInsert(conn);
@@ -43,16 +49,30 @@ public class UserDatabaseDAO {
 			}
 		}
 		
+		private String getLSUID(UserBean ubean) throws NoSuchAlgorithmException {
+			 MessageDigest mDigest = MessageDigest.getInstance("SHA1");
+			  String input = ubean.getFirstName() + ubean.getUserName() + ubean.getPassword() + new Random().nextInt();
+		      byte[] result = mDigest.digest(input.getBytes());
+		      StringBuffer sb = new StringBuffer();
+		      for (int i = 0; i < result.length; i++) {
+		          sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+		      }
+		      return sb.toString();
+		}
+
 		public void updateUser(UserBean userbean) throws Exception {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
 				conn = factory.getConnection();
-				ps = conn.prepareStatement("UPDATE users SET fName = ? , lName = ?, pWord = ? WHERE uName = ?");
+				ps = conn.prepareStatement("UPDATE users SET firstName = ?, lastName = ?, userName = ?, "
+						+ " password = ?, email = ? WHERE LSUID = ?");
 				ps.setString(1, userbean.getFirstName());
 				ps.setString(2, userbean.getLastName());
-				ps.setString(3, userbean.getPassword());
-				ps.setString(4, userbean.getUserName());
+				ps.setString(3, userbean.getUserName());
+				ps.setString(4, p.securePassword(userbean.getPassword()));
+				ps.setString(5, userbean.getEmail());
+				ps.setString(6, userbean.getLSUID());
 				ps.executeUpdate();
 				ps.close();
 			} catch (SQLException e) {
@@ -62,13 +82,14 @@ public class UserDatabaseDAO {
 			}
 		}
 
-		public UserBean getUser(String uName) throws Exception {
+		public UserBean getUser(String userName, String LSUID) throws Exception {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
 				conn = factory.getConnection();
-				ps = conn.prepareStatement("SELECT * FROM users WHERE uName = ?");
-				ps.setString(1, uName);
+				ps = conn.prepareStatement("SELECT * FROM users WHERE userName = ? OR LSUID = ?");
+				ps.setString(1, userName);
+				ps.setString(2, LSUID);
 				ResultSet rs = ps.executeQuery();
 				if (rs.next()){
 					UserBean result = userloader.loadSingle(rs); 
@@ -88,13 +109,13 @@ public class UserDatabaseDAO {
 			}
 		}
 
-		public boolean checkUserName(String uname) throws Exception {
+		public boolean checkUserName(String userName) throws Exception {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
 				conn = factory.getConnection();
-				ps = conn.prepareStatement("SELECT * FROM users WHERE uName=?");
-				ps.setString(1, uname);
+				ps = conn.prepareStatement("SELECT * FROM users WHERE userName=?");
+				ps.setString(1, userName);
 				ResultSet rs = ps.executeQuery();
 				boolean check = rs.next();
 				rs.close();
@@ -126,13 +147,14 @@ public class UserDatabaseDAO {
 			}
 		}
 		
-		public void removeUser(String uName) throws Exception  {
+		public void removeUser(String userName, String LSUID) throws Exception  {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
 				conn = factory.getConnection();
-				ps = conn.prepareStatement("DELETE FROM users WHERE uName = ?");
-				ps.setString(1, uName);
+				ps = conn.prepareStatement("DELETE FROM users WHERE userName = ? OR LSUID = ?");
+				ps.setString(1, userName);
+				ps.setString(2, LSUID);
 				ps.executeUpdate();
 				ps.close();
 			} catch (SQLException e) {

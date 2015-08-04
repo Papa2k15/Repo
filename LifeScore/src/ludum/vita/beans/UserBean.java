@@ -2,21 +2,17 @@ package ludum.vita.beans;
 
 public class UserBean {
 	
-	private String LSUID;
+	private String LSUID = "";
 	
-	private String firstName;
+	private String firstName = "";
 	
-	private String lastName;
+	private String lastName = "";
 	
-	private String userName;
+	private String userName = "";
 	
-	private String password;
+	private String password = "";
 	
-	private String dateOfBirth;
-	
-	private String gender;
-	
-	private String email;
+	private String email = "";
 	
 	/**
 	 * @param firstName
@@ -78,22 +74,6 @@ public class UserBean {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getDateOfBirth() {
-		return dateOfBirth;
-	}
-
-	public void setDateOfBirth(String dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-
-	public String getGender() {
-		return gender;
-	}
-
-	public void setGender(String gender) {
-		this.gender = gender;
 	}
 
 	public String getEmail() {

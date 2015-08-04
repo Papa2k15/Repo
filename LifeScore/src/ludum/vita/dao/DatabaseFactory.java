@@ -28,8 +28,8 @@ public class DatabaseFactory {
 		return driver.getConnection();
 	}
 
-	public UserDatabaseDAO getUserDatabaseDAO(){
-		return new UserDatabaseDAO(this);
+	public UsersDAO getUsersDAO(){
+		return new UsersDAO(this);
 	}
 	
 	
