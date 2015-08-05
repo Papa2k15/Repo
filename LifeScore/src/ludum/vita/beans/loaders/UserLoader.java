@@ -6,9 +6,11 @@ package ludum.vita.beans.loaders;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 
 import ludum.vita.beans.UserBean;
+import ludum.vita.security.PasswordManager;
 
 /**
  * @author Owner
@@ -16,21 +18,31 @@ import ludum.vita.beans.UserBean;
  */
 public class UserLoader implements BeanLoader<UserBean> {
 
+	private PasswordManager p = PasswordManager.getPasswordConfiguration();
+	
 	@Override
 	public UserBean loadSingle(ResultSet rs) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public PreparedStatement loadParameters(PreparedStatement ps, UserBean bean) {
-		// TODO Auto-generated method stub
+		UserBean uBean = 
+				new UserBean(rs.getString("LSUID"), 
+						rs.getString("firstName"), 
+						rs.getString("userName"), 
+						p.restorePassword(rs.getString("password")));
+		uBean.setLastName(rs.getString("lastName"));
+		uBean.setEmail(rs.getString("email"));
 		return null;
 	}
 
 	@Override
 	public List<UserBean> loadList(ResultSet rs) throws SQLException {
-		// TODO Auto-generated method stub
+		List<UserBean> users = new LinkedList<UserBean>();
+		while (rs.next()) {
+			users.add(loadSingle(rs));
+		}
+		return users;
+	}
+	
+	@Override
+	public PreparedStatement loadParameters(PreparedStatement ps, UserBean bean) {
 		return null;
 	}
 

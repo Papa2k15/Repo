@@ -13,7 +13,9 @@ public class DatabaseFactory {
 	 * @return A production instance of the DatabaseFactory, to be used in deployment (by Tomcat).
 	 */
 	public static DatabaseFactory getProductionInstance() {
+		if(productionInstance == null){
 			productionInstance = new DatabaseFactory();
+		}
 		return productionInstance;
 	}
 

@@ -5,14 +5,14 @@ CREATE TABLE users(
 	userName		VARCHAR(30),		
 	password		VARCHAR(60),
 	email			VARCHAR(100),
-	PRIMARY  KEY (LSPID)
+	PRIMARY  KEY (LSUID)
 ) ENGINE=MyISAM; 
 
 CREATE TABLE demographics(
 	LSUID 			VARCHAR(100),
 	dob				DATE default '0000-00-00',
 	gender			VARCHAR(6),
-	PRIMARY  KEY (LSPID)
+	PRIMARY  KEY (LSUID)
 ) ENGINE=MyISAM;
 
 CREATE TABLE missions(
@@ -30,5 +30,5 @@ CREATE TABLE objectives(
 	LSMID		VARCHAR(100),
 	description	VARCHAR(100),		
 	trackerVal  VARCHAR(50),
-	PRIMARY  KEY (LSMID)
+	PRIMARY  KEY (LSOID)
 ) ENGINE=MyISAM; 

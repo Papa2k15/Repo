@@ -27,6 +27,9 @@ public class UsersDAO {
 		}
 		
 		public long addUser(UserBean ubean) throws Exception {
+			if(checkUserName(ubean.getUserName())){
+				throw new Exception("User already exists in database");
+			}
 			String LSUIDGen = getLSUID(ubean);
 			Connection conn = null;
 			PreparedStatement ps = null;
