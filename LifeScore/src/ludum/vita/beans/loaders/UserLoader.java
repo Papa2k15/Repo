@@ -29,7 +29,7 @@ public class UserLoader implements BeanLoader<UserBean> {
 						p.restorePassword(rs.getString("password")));
 		uBean.setLastName(rs.getString("lastName"));
 		uBean.setEmail(rs.getString("email"));
-		return null;
+		return uBean;
 	}
 
 	@Override

@@ -15,6 +15,7 @@ public class UserDAOTest {
 	private UsersDAO userdatabase;
 	private UserBean newUser1;
 	private UserBean newUser2;
+	private UserBean badUser;
 
 	@Before
 	public void setUp() throws Exception {
@@ -22,6 +23,7 @@ public class UserDAOTest {
 		userdatabase = factory.getUsersDAO();
 		newUser1 = new UserBean("Gregory", "Papa2k15", "Password");
 		newUser2 = new UserBean("Amber", "Amb2k15", "Fetty");
+		badUser = new UserBean("I", "Dont", "Exist");
 	}
 	
 	@Test
@@ -37,6 +39,40 @@ public class UserDAOTest {
 		assertEquals(1, userdatabase.getAllUsers().size());
 		userdatabase.addUser(newUser2);
 		assertEquals(2, userdatabase.getAllUsers().size());
+	}
+	
+	@Test
+	public void testUpdateAndGetUser() throws Exception {
+		assertEquals(0, userdatabase.getAllUsers().size());
+		userdatabase.addUser(newUser1);
+		assertEquals(1, userdatabase.getAllUsers().size());
+		assertEquals("Gregory", userdatabase.getUser(newUser1.getUserName()).getFirstName());
+		newUser1.setFirstName("Lorenzo");
+		newUser1.setLastName("Daniels");
+		userdatabase.updateUser(newUser1);
+		assertEquals("Lorenzo", userdatabase.getUser(newUser1.getUserName()).getFirstName());
+		assertEquals("Daniels", userdatabase.getUser(newUser1.getUserName()).getLastName());
+		assertEquals(1, userdatabase.getAllUsers().size());
+		assertNull(userdatabase.getUser(badUser.getUserName()));
+	}
+	
+	@Test
+	public void testRemoveUser() throws Exception {
+		assertEquals(0, userdatabase.getAllUsers().size());
+		userdatabase.addUser(newUser1);
+		assertEquals(1, userdatabase.getAllUsers().size());
+		userdatabase.addUser(newUser2);
+		assertEquals(2, userdatabase.getAllUsers().size());
+		userdatabase.removeUser(newUser1);
+		assertEquals(1, userdatabase.getAllUsers().size());
+		try {
+			userdatabase.removeUser(newUser1);
+		}  catch (Exception e){
+			assertEquals("User doesn't exist.", e.getMessage());
+		}
+		assertEquals(1, userdatabase.getAllUsers().size());
+		userdatabase.removeUser(newUser2);
+		assertEquals(0, userdatabase.getAllUsers().size());
 	}
 
 

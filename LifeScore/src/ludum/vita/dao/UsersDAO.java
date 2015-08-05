@@ -68,14 +68,13 @@ public class UsersDAO {
 			PreparedStatement ps = null;
 			try {
 				conn = factory.getConnection();
-				ps = conn.prepareStatement("UPDATE users SET firstName = ?, lastName = ?, userName = ?, "
-						+ " password = ?, email = ? WHERE LSUID = ?");
+				ps = conn.prepareStatement("UPDATE users SET firstName = ?, lastName = ?, "
+						+ " password = ?, email = ? WHERE userName = ?");
 				ps.setString(1, userbean.getFirstName());
 				ps.setString(2, userbean.getLastName());
-				ps.setString(3, userbean.getUserName());
-				ps.setString(4, p.securePassword(userbean.getPassword()));
-				ps.setString(5, userbean.getEmail());
-				ps.setString(6, userbean.getLSUID());
+				ps.setString(3, p.securePassword(userbean.getPassword()));
+				ps.setString(4, userbean.getEmail());
+				ps.setString(5, userbean.getUserName());
 				ps.executeUpdate();
 				ps.close();
 			} catch (SQLException e) {
@@ -85,14 +84,13 @@ public class UsersDAO {
 			}
 		}
 
-		public UserBean getUser(String userName, String LSUID) throws Exception {
+		public UserBean getUser(String userName) throws Exception {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
 				conn = factory.getConnection();
-				ps = conn.prepareStatement("SELECT * FROM users WHERE userName = ? OR LSUID = ?");
+				ps = conn.prepareStatement("SELECT * FROM users WHERE userName = ?");
 				ps.setString(1, userName);
-				ps.setString(2, LSUID);
 				ResultSet rs = ps.executeQuery();
 				if (rs.next()){
 					UserBean result = userloader.loadSingle(rs); 
@@ -150,14 +148,16 @@ public class UsersDAO {
 			}
 		}
 		
-		public void removeUser(String userName, String LSUID) throws Exception  {
+		public void removeUser(UserBean uBean) throws Exception  {
+			if(!checkUserName(uBean.getUserName())){
+				throw new Exception("User doesn't exist.");
+			}
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
 				conn = factory.getConnection();
-				ps = conn.prepareStatement("DELETE FROM users WHERE userName = ? OR LSUID = ?");
-				ps.setString(1, userName);
-				ps.setString(2, LSUID);
+				ps = conn.prepareStatement("DELETE FROM users WHERE userName = ?");
+				ps.setString(1, uBean.getUserName());
 				ps.executeUpdate();
 				ps.close();
 			} catch (SQLException e) {
