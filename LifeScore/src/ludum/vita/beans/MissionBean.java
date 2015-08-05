@@ -3,7 +3,9 @@
  */
 package ludum.vita.beans;
 
-import java.util.List;
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * A mission is simply a goal that a player plans to complete via
@@ -13,29 +15,26 @@ import java.util.List;
  */
 public class MissionBean {
 
-	private String LSMID;
+	private String LSMID = "";
 	
-	private String LSUID;
+	private String LSUID = "";
 	
-	private String title;
+	private String title = "";
+		
+	private String startDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date());
 	
-	private List<ObjectiveBean> objectives;
+	private String endDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date());
 	
-	private String startDate;
-	
-	private String endDate;
-	
-	private boolean missionComplete;
+	private boolean missionComplete = false;
 	
 	/**
 	 * @param LSUID
 	 * @param title
 	 * @param objectives
 	 */
-	public MissionBean(String LSUID, String title, List<ObjectiveBean> objectives){
+	public MissionBean(String LSUID, String title){
 		this.setLSUID(LSUID);
 		this.setTitle(title);
-		this.setObjectives(objectives);
 	}
 
 	/**
@@ -44,8 +43,8 @@ public class MissionBean {
 	 * @param title
 	 * @param objectives
 	 */
-	public MissionBean(String LSMID, String LSUID, String title, List<ObjectiveBean> objectives){
-		this(LSUID,title,objectives);
+	public MissionBean(String LSMID, String LSUID, String title){
+		this(LSUID,title);
 		this.setLSMID(LSMID);
 	}
 
@@ -78,15 +77,7 @@ public class MissionBean {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-
-	public List<ObjectiveBean> getObjectives() {
-		return objectives;
-	}
-
-	public void setObjectives(List<ObjectiveBean> objectives) {
-		this.objectives = objectives;
-	}
-
+	
 	/**
 	 * @return the missionComplete
 	 */
@@ -101,15 +92,26 @@ public class MissionBean {
 		this.missionComplete = missionComplete;
 	}
 
-	public String getStartDate() {
+	public String getStartDateString() {
 		return startDate;
 	}
 
 	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
+	
+	public Date getStartDate() throws ParseException {
+		Date d = new SimpleDateFormat("MM/dd/yyyy").parse(startDate);
+		return d;
+	}
+	
+	public Date getEndDate() throws ParseException {
+		Date d = new SimpleDateFormat("MM/dd/yyyy").parse(endDate);
+		return d;
+	}
 
-	public String getEndDate() {
+
+	public String getEndDateString() {
 		return endDate;
 	}
 
