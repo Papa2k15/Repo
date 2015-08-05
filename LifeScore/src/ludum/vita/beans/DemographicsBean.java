@@ -3,6 +3,8 @@ package ludum.vita.beans;
 public class DemographicsBean {
 	
 	private String LSUID;
+	
+	private String ethnicity;
 
 	private String dateOfBirth;
 	
@@ -30,6 +32,20 @@ public class DemographicsBean {
 	 */
 	public void setLSUID(String lSUID) {
 		LSUID = lSUID;
+	}
+
+	/**
+	 * @return the ethnicity
+	 */
+	public String getEthnicity() {
+		return ethnicity;
+	}
+
+	/**
+	 * @param ethnicity the ethnicity to set
+	 */
+	public void setEthnicity(String ethnicity) {
+		this.ethnicity = ethnicity;
 	}
 
 	public String getDateOfBirth() {

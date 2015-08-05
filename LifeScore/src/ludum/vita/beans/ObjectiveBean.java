@@ -1,6 +1,6 @@
 package ludum.vita.beans;
 
-public abstract class ObjectiveBean {
+public class ObjectiveBean {
 	
 	private String LSOID;
 	

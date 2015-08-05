@@ -144,14 +144,14 @@ public class MissionDAO {
 
 	//FOR TESTING ONLY
 	@SuppressWarnings("resource")
-	public void clearUserTable() throws Exception{
+	public void clearMissionTable() throws Exception{
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
 			conn = factory.getConnection();
-			ps = conn.prepareStatement("DELETE FROM users");
+			ps = conn.prepareStatement("DELETE FROM missions");
 			ps.executeUpdate();
-			ps = conn.prepareStatement("ALTER TABLE users AUTO_INCREMENT = 0");
+			ps = conn.prepareStatement("ALTER TABLE missions AUTO_INCREMENT = 0");
 			ps.executeUpdate();
 			ps.close();
 		} catch (SQLException e) {
