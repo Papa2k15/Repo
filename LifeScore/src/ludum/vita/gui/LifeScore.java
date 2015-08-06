@@ -2,36 +2,21 @@ package ludum.vita.gui;
 
 import java.awt.EventQueue;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.BorderLayout;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JMenuBar;
-import javax.swing.SwingConstants;
-import javax.swing.JPopupMenu;
-import javax.swing.JTabbedPane;
-import javax.swing.JLayeredPane;
-import javax.swing.JInternalFrame;
-import javax.swing.border.BevelBorder;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EtchedBorder;
-import java.awt.GridLayout;
-import java.awt.Color;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class LifeScore {
 
 	private JFrame lifeScoreFrame;
 	private JButton homebtn;
-	private JPanel mainPanel;
+	private JPanel loggedInpnl;
+	private JPanel menupnl;
+	private JButton missionControlbtn;
 
 	/**
 	 * Launch the application.
@@ -51,15 +36,24 @@ public class LifeScore {
 
 	/**
 	 * Create the application.
+	 * @throws UnsupportedLookAndFeelException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws ClassNotFoundException 
 	 */
-	public LifeScore() {
+	public LifeScore() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws UnsupportedLookAndFeelException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws ClassNotFoundException 
 	 */
-	private void initialize() {
+	private void initialize() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		lifeScoreFrame = new JFrame();
 		lifeScoreFrame.setTitle("Life Score");
 		lifeScoreFrame.setResizable(false);
@@ -67,37 +61,36 @@ public class LifeScore {
 		lifeScoreFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		lifeScoreFrame.getContentPane().setLayout(null);
 		
-		mainPanel = new JPanel();
-		mainPanel.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		mainPanel.setBounds(0, 0, 654, 427);
-		lifeScoreFrame.getContentPane().add(mainPanel);
+		loggedInpnl = new JPanel();
+		loggedInpnl.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		loggedInpnl.setBounds(0, 0, 654, 427);
+		lifeScoreFrame.getContentPane().add(loggedInpnl);
 		
-		homebtn = new JButton("New button");
-		homebtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		homebtn = new JButton("");
+		homebtn.setIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\HomeButton.png"));
+		homebtn.setBorderPainted(false);
+		homebtn.setFocusPainted(false);
+		homebtn.setContentAreaFilled(false);
+		homebtn.setRolloverEnabled(true);
+		homebtn.setRolloverIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\HomeButton_Hover.png"));
+		homebtn.setBounds(12, 13, 68, 68);
+
 		
-		JButton missionControlbtn = new JButton("New button");
-		GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
-		gl_mainPanel.setHorizontalGroup(
-			gl_mainPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_mainPanel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(homebtn, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-						.addComponent(missionControlbtn, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(573, Short.MAX_VALUE))
-		);
-		gl_mainPanel.setVerticalGroup(
-			gl_mainPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_mainPanel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(homebtn, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(missionControlbtn, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(270, Short.MAX_VALUE))
-		);
-		mainPanel.setLayout(gl_mainPanel);
+		missionControlbtn = new JButton("");
+		missionControlbtn.setBounds(12, 92, 68, 68);
+		missionControlbtn.setIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\MissionControlButton.png"));
+		missionControlbtn.setBorderPainted(false);
+		missionControlbtn.setFocusPainted(false);
+		missionControlbtn.setContentAreaFilled(false);
+		missionControlbtn.setRolloverEnabled(true);
+		missionControlbtn.setRolloverIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\MissionControlButton_Hover.png"));
+		
+		loggedInpnl.setLayout(null);
+		
+		menupnl = new JPanel();
+		menupnl.setBounds(89, 13, 553, 401);
+		loggedInpnl.add(menupnl);
+		loggedInpnl.add(homebtn);
+		loggedInpnl.add(missionControlbtn);
 	}
 }
