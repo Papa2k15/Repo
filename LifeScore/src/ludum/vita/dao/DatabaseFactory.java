@@ -34,5 +34,12 @@ public class DatabaseFactory {
 		return new UsersDAO(this);
 	}
 	
+	public MissionDAO getMissionsDAO(){
+		return new MissionDAO(this);
+	}
+	
+	public ObjectivesDAO getObjectivesDAO(){
+		return new ObjectivesDAO(this);
+	}
 	
 }
