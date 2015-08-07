@@ -2,5 +2,5 @@ DELETE FROM users;
 ALTER TABLE users AUTO_INCREMENT = 0;
 DELETE FROM missions;
 ALTER TABLE missions AUTO_INCREMENT = 0;
-DELETE FROM objectives;
-ALTER TABLE objectives AUTO_INCREMENT = 0;
+DELETE FROM demographics;
+ALTER TABLE demographics AUTO_INCREMENT = 0;

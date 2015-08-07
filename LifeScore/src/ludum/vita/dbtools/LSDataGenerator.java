@@ -6,9 +6,10 @@ import java.sql.SQLException;
 
 import ludum.vita.dao.DatabaseFactory;
 
-public class AdminDataGenerator {
+public class LSDataGenerator {
+	
 	public static void main(String[] args) throws IOException, SQLException {
-		AdminDataGenerator gen = new AdminDataGenerator();
+		LSDataGenerator gen = new LSDataGenerator();
 		gen.clearAllTables();
 		gen.standardData();
 	}
@@ -16,11 +17,11 @@ public class AdminDataGenerator {
 	private String DIR = "sql/data";
 	private DatabaseFactory factory;
 
-	public AdminDataGenerator() {
+	public LSDataGenerator() {
 		this.factory = DatabaseFactory.getProductionInstance();
 	}
 
-	public AdminDataGenerator(String projectHome, DatabaseFactory factory) {
+	public LSDataGenerator(String projectHome, DatabaseFactory factory) {
 		this.DIR = projectHome + "/sql/data";
 		this.factory = factory;
 	}

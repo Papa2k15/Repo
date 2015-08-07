@@ -11,7 +11,7 @@ VALUES (
 'Gregory', 
 'Daniels', 
 'Papa2k15', 
-'Vgyy}uxj6'
+'Vgyy}uxj6',
 'gldaniel@ncsu.edu');
 
 /*Inserting Amber Peet*/
@@ -27,5 +27,5 @@ VALUES (
 'Amber', 
 'Peet', 
 'Amb2k15', 
-'Jixx}4'
+'Jixx}4',
 'amb@gmail.com');

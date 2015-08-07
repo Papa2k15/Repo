@@ -30,7 +30,9 @@ public class MissionLoader implements BeanLoader<MissionBean> {
 
 	@Override
 	public MissionBean loadSingle(ResultSet rs) throws SQLException {		
-		MissionBean mBean = new MissionBean(rs.getString("LSMID"), rs.getString("LSUID"), rs.getString("title"));
+		MissionBean mBean = new MissionBean(rs.getString("LSMID"), rs.getString("LSUID"), rs.getString("title"), rs.getInt("trackerGoal"), rs.getString("unit"));
+		mBean.setDescription(rs.getString("description"));
+		mBean.setTrackerValue(rs.getInt("trackerVal"));
 		mBean.setStartDate(new SimpleDateFormat("MM/dd/yyyy").format(new Date(rs.getDate("startDate").getTime())));
 		mBean.setEndDate(new SimpleDateFormat("MM/dd/yyyy").format(new Date(rs.getDate("endDate").getTime())));
 		mBean.setMissionComplete(rs.getBoolean("complete"));

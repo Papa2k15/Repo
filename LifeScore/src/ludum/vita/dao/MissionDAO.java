@@ -1,7 +1,6 @@
 package ludum.vita.dao;
 
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +12,6 @@ import ludum.vita.beans.MissionBean;
 import ludum.vita.beans.loaders.MissionLoader;
 import ludum.vita.dbtools.DatabaseTool;
 
-//TODO 
 public class MissionDAO {
 
 	private DatabaseFactory factory;
@@ -29,13 +27,18 @@ public class MissionDAO {
 		PreparedStatement ps = null;
 		try {
 			conn = factory.getConnection();
-			ps = conn.prepareStatement("INSERT INTO missions (LSMID, LSUID, title, startDate, endDate, complete) VALUES (?,?,?,?,?,?)");
+			ps = conn.prepareStatement("INSERT INTO missions (LSMID, LSUID, title, description,"
+					+ "trackerVal, trackerGoal, unit, startDate, endDate, complete) VALUES (?,?,?,?,?,?,?,?,?,?)");
 			ps.setString(1, LSMIDGen);
 			ps.setString(2, mbean.getLSUID());
 			ps.setString(3, mbean.getTitle());
-			ps.setDate(4, new java.sql.Date(mbean.getStartDate().getTime()));
-			ps.setDate(5, new java.sql.Date(mbean.getEndDate().getTime()));
-			ps.setBoolean(6, mbean.isMissionComplete());
+			ps.setString(4, mbean.getDescription());
+			ps.setInt(5, mbean.getTrackerValue());
+			ps.setInt(6, mbean.getTrackerGoal());
+			ps.setString(7, mbean.getUnits());
+			ps.setDate(8, new java.sql.Date(mbean.getStartDate().getTime()));
+			ps.setDate(9, new java.sql.Date(mbean.getEndDate().getTime()));
+			ps.setBoolean(10, mbean.isMissionComplete());
 			ps.executeUpdate();
 			ps.close();
 			return DatabaseTool.getLastInsert(conn);
@@ -46,15 +49,49 @@ public class MissionDAO {
 		}
 	}
 
-	private String getLSMID(MissionBean mbean) throws NoSuchAlgorithmException {
+	private String getLSMID(MissionBean mbean) throws Exception {
 		MessageDigest mDigest = MessageDigest.getInstance("SHA1");
-		String input = mbean.getTitle() + mbean.getStartDateString() + mbean.getLSUID() + new Random().nextInt();
+		String input = mbean.getTitle() + mbean.getDescription() + mbean.getStartDateString() + mbean.getLSUID() + new Random().nextInt();
 		byte[] result = mDigest.digest(input.getBytes());
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < result.length; i++) {
 			sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
 		}
+		while(duplicateCheck(sb.toString())){ //RARE CHECKUP
+			input = mbean.getTitle() + mbean.getDescription() + mbean.getStartDateString() + mbean.getLSUID() + new Random().nextInt();
+			result = mDigest.digest(input.getBytes());
+			sb = new StringBuffer();
+			for (int i = 0; i < result.length; i++) {
+				sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+			}
+		}
 		return sb.toString();
+	}
+
+	private boolean duplicateCheck(String LSMID) throws Exception {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			conn = factory.getConnection();
+			ps = conn.prepareStatement("SELECT * FROM missions WHERE LSMID = ?");
+			ps.setString(1, LSMID);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()){
+				//MissionBean result = missionloader.loadSingle(rs); 
+				rs.close();
+				ps.close();
+				return true;
+			}
+			else{
+				rs.close();
+				ps.close();
+				return false;
+			}
+		} catch (SQLException e) {
+			throw new Exception("Error connecting to database.");
+		} finally {
+			DatabaseTool.closeConnection(conn, ps);
+		}
 	}
 
 	public void updateMission(MissionBean missionbean) throws Exception {
@@ -63,13 +100,17 @@ public class MissionDAO {
 		try {
 			conn = factory.getConnection();
 			ps = conn.prepareStatement("UPDATE missions SET title = ?, startDate = ?, "
-					+ " endDate = ?, complete = ? WHERE LSMID = ? AND LSUID = ? ");
+					+ " endDate = ?, complete = ?, description = ?, trackerVal = ?, trackerGoal = ?, unit = ? WHERE LSMID = ? AND LSUID = ? ");
 			ps.setString(1, missionbean.getTitle());
 			ps.setDate(2, new java.sql.Date(missionbean.getStartDate().getTime()));
 			ps.setDate(3, new java.sql.Date(missionbean.getEndDate().getTime()));
 			ps.setBoolean(4, missionbean.isMissionComplete());
-			ps.setString(5, missionbean.getLSMID());
-			ps.setString(6, missionbean.getLSUID());
+			ps.setString(5, missionbean.getDescription());
+			ps.setInt(6, missionbean.getTrackerValue());
+			ps.setInt(7, missionbean.getTrackerGoal());
+			ps.setString(8, missionbean.getUnits());
+			ps.setString(9, missionbean.getLSMID());
+			ps.setString(10, missionbean.getLSUID());
 			ps.executeUpdate();
 			ps.close();
 		} catch (SQLException e) {

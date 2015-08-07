@@ -37,9 +37,4 @@ public class DatabaseFactory {
 	public MissionDAO getMissionsDAO(){
 		return new MissionDAO(this);
 	}
-	
-	public ObjectivesDAO getObjectivesDAO(){
-		return new ObjectivesDAO(this);
-	}
-	
 }

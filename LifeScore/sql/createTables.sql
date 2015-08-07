@@ -19,16 +19,12 @@ CREATE TABLE missions(
 	LSMID  		VARCHAR(100),
 	LSUID		VARCHAR(100),
 	title	 	VARCHAR(100),		
+	description	VARCHAR(100),		
+	trackerVal  BIGINT(50),
+	trackerGoal BIGINT(50),
+	unit		VARCHAR(50),
 	startDate	DATE default '0000-00-00',
 	endDate		DATE default '0000-00-00',	
 	complete	BOOLEAN default false,
 	PRIMARY  KEY (LSMID)
-) ENGINE=MyISAM; 
-
-CREATE TABLE objectives(
-	LSOID 		VARCHAR(100),
-	LSMID		VARCHAR(100),
-	description	VARCHAR(100),		
-	trackerVal  VARCHAR(50),
-	PRIMARY  KEY (LSOID)
 ) ENGINE=MyISAM; 

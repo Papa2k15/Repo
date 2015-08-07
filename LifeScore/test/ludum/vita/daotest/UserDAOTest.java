@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 import ludum.vita.beans.UserBean;
 import ludum.vita.dao.DatabaseFactory;
 import ludum.vita.dao.UsersDAO;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

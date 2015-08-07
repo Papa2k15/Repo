@@ -9,6 +9,14 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EtchedBorder;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import javax.swing.border.MatteBorder;
+import java.awt.Color;
+import javax.swing.border.LineBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.TitledBorder;
 
 public class LifeScore {
 
@@ -88,9 +96,16 @@ public class LifeScore {
 		loggedInpnl.setLayout(null);
 		
 		menupnl = new JPanel();
-		menupnl.setBounds(89, 13, 553, 401);
+		menupnl.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		menupnl.setBounds(89, 33, 553, 381);
 		loggedInpnl.add(menupnl);
 		loggedInpnl.add(homebtn);
 		loggedInpnl.add(missionControlbtn);
+		
+		JLabel lblWelcome = new JLabel("Welcome <user>");
+		lblWelcome.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWelcome.setBounds(89, 0, 553, 32);
+		loggedInpnl.add(lblWelcome);
 	}
 }

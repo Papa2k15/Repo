@@ -21,6 +21,14 @@ public class MissionBean {
 	
 	private String title = "";
 		
+	private String description = "";
+	
+	private int trackerValue = 0;
+	
+	private int trackerGoal = 0;
+	
+	private String units = "";
+	
 	private String startDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date());
 	
 	private String endDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date());
@@ -32,9 +40,11 @@ public class MissionBean {
 	 * @param title
 	 * @param objectives
 	 */
-	public MissionBean(String LSUID, String title){
+	public MissionBean(String LSUID, String title, int trackerGoal, String units){
 		this.setLSUID(LSUID);
 		this.setTitle(title);
+		this.setTrackerGoal(trackerGoal);
+		this.setUnits(units);
 	}
 
 	/**
@@ -43,8 +53,8 @@ public class MissionBean {
 	 * @param title
 	 * @param objectives
 	 */
-	public MissionBean(String LSMID, String LSUID, String title){
-		this(LSUID,title);
+	public MissionBean(String LSMID, String LSUID, String title, int trackerGoal, String units){
+		this(LSUID,title,trackerGoal,units);
 		this.setLSMID(LSMID);
 	}
 
@@ -78,6 +88,62 @@ public class MissionBean {
 		this.title = title;
 	}
 	
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * @return the trackerValue
+	 */
+	public int getTrackerValue() {
+		return trackerValue;
+	}
+
+	/**
+	 * @param trackerValue the trackerValue to set
+	 */
+	public void setTrackerValue(int trackerValue) {
+		this.trackerValue = trackerValue;
+	}
+
+	/**
+	 * @return the trackerType
+	 */
+	public int getTrackerGoal() {
+		return trackerGoal;
+	}
+
+	/**
+	 * @param trackerType the trackerType to set
+	 */
+	public void setTrackerGoal(int trackerGoal) {
+		this.trackerGoal = trackerGoal;
+	}
+
+	/**
+	 * @return the units
+	 */
+	public String getUnits() {
+		return units;
+	}
+
+	/**
+	 * @param units the units to set
+	 */
+	public void setUnits(String units) {
+		this.units = units;
+	}
+
 	/**
 	 * @return the missionComplete
 	 */
