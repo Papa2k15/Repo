@@ -19,7 +19,7 @@ CREATE TABLE missions(
 	LSMID  		VARCHAR(100),
 	LSUID		VARCHAR(100),
 	title	 	VARCHAR(100),		
-	description	VARCHAR(100),		
+	description	VARCHAR(200),		
 	trackerVal  BIGINT(50),
 	trackerGoal BIGINT(50),
 	unit		VARCHAR(50),

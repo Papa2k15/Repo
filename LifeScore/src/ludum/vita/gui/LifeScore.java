@@ -1,7 +1,6 @@
 package ludum.vita.gui;
 
 import java.awt.EventQueue;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,19 +11,19 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-import javax.swing.border.MatteBorder;
-import java.awt.Color;
-import javax.swing.border.LineBorder;
-import javax.swing.border.BevelBorder;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.border.TitledBorder;
 
-public class LifeScore {
+public class LifeScore implements ActionListener {
 
 	private JFrame lifeScoreFrame;
 	private JButton homebtn;
 	private JPanel loggedInpnl;
 	private JPanel menupnl;
 	private JButton missionControlbtn;
+	private MissionControlPanel missionPanel;
+	private boolean mpVisible;
 
 	/**
 	 * Launch the application.
@@ -75,6 +74,7 @@ public class LifeScore {
 		lifeScoreFrame.getContentPane().add(loggedInpnl);
 		
 		homebtn = new JButton("");
+		homebtn.addActionListener(this);
 		homebtn.setIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\HomeButton.png"));
 		homebtn.setBorderPainted(false);
 		homebtn.setFocusPainted(false);
@@ -85,6 +85,7 @@ public class LifeScore {
 
 		
 		missionControlbtn = new JButton("");
+		missionControlbtn.addActionListener(this);
 		missionControlbtn.setBounds(12, 92, 68, 68);
 		missionControlbtn.setIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\MissionControlButton.png"));
 		missionControlbtn.setBorderPainted(false);
@@ -99,6 +100,7 @@ public class LifeScore {
 		menupnl.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		menupnl.setBounds(89, 33, 553, 381);
 		loggedInpnl.add(menupnl);
+		menupnl.setLayout(null);
 		loggedInpnl.add(homebtn);
 		loggedInpnl.add(missionControlbtn);
 		
@@ -107,5 +109,28 @@ public class LifeScore {
 		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWelcome.setBounds(89, 0, 553, 32);
 		loggedInpnl.add(lblWelcome);
+		
+		mpVisible = false;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		if(event.getSource() == homebtn){
+			if(mpVisible){
+				menupnl.remove(missionPanel);
+				menupnl.repaint();
+				menupnl.revalidate();
+				menupnl.updateUI();
+			}
+			
+			mpVisible = false;
+		} else if (event.getSource() == missionControlbtn){
+			mpVisible = true;
+			missionPanel = new MissionControlPanel();
+			menupnl.add(missionPanel);
+			menupnl.repaint();
+			menupnl.revalidate();
+			menupnl.updateUI();
+		}
 	}
 }
