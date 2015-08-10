@@ -100,23 +100,23 @@ public class LifeScore extends JFrame implements ActionListener {
 
 		homebtn = new JButton("");
 		homebtn.addActionListener(this);
-		homebtn.setIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\HomeButton.png"));
+		homebtn.setIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/HomeButton.png")));
 		homebtn.setBorderPainted(false);
 		homebtn.setFocusPainted(false);
 		homebtn.setContentAreaFilled(false);
 		homebtn.setRolloverEnabled(true);
-		homebtn.setRolloverIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\HomeButton_Hover.png"));
+		homebtn.setRolloverIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/HomeButton_Hover.png")));
 		homebtn.setBounds(12, 13, 68, 68);
 
 		missionControlbtn = new JButton("");
 		missionControlbtn.addActionListener(this);
 		missionControlbtn.setBounds(12, 92, 68, 68);
-		missionControlbtn.setIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\MissionControlButton.png"));
+		missionControlbtn.setIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/MissionControlButton.png")));
 		missionControlbtn.setBorderPainted(false);
 		missionControlbtn.setFocusPainted(false);
 		missionControlbtn.setContentAreaFilled(false);
 		missionControlbtn.setRolloverEnabled(true);
-		missionControlbtn.setRolloverIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\MissionControlButton_Hover.png"));
+		missionControlbtn.setRolloverIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/MissionControlButton_Hover.png")));
 
 		loggedInpnl.setLayout(null);
 
@@ -142,12 +142,12 @@ public class LifeScore extends JFrame implements ActionListener {
 
 		missionTrackerbtn = new JButton("");
 		missionTrackerbtn.addActionListener(this);
-		missionTrackerbtn.setIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\TrackMissionButton.png"));
+		missionTrackerbtn.setIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/TrackMissionButton.png")));
 		missionTrackerbtn.setBorderPainted(false);
 		missionTrackerbtn.setFocusPainted(false);
 		missionTrackerbtn.setContentAreaFilled(false);
 		missionTrackerbtn.setRolloverEnabled(true);
-		missionTrackerbtn.setRolloverIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\TrackMissionButton_Hover.png"));
+		missionTrackerbtn.setRolloverIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/TrackMissionButton_Hover.png")));
 		missionTrackerbtn.setBounds(12, 171, 68, 68);
 		loggedInpnl.add(missionTrackerbtn);
 	}

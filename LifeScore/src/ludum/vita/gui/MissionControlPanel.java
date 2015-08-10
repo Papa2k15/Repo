@@ -137,12 +137,12 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 		clearbtn = new JButton("");
 		clearbtn.addActionListener(this);
 		clearbtn.setToolTipText("Clear current mission.");
-		clearbtn.setIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\ClearButton.png"));
+		clearbtn.setIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/ClearButton.png")));
 		clearbtn.setBorderPainted(false);
 		clearbtn.setFocusPainted(false);
 		clearbtn.setContentAreaFilled(false);
 		clearbtn.setRolloverEnabled(true);
-		clearbtn.setRolloverIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\ClearButton_Hover.png"));
+		clearbtn.setRolloverIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/ClearButton_Hover.png")));
 		clearbtn.setBounds(62, 350, 65, 25);
 		add(clearbtn);
 		
@@ -183,12 +183,12 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 		refreshbtn = new JButton("");
 		refreshbtn.addActionListener(this);
 		refreshbtn.setToolTipText("Refresh all missions.");
-		refreshbtn.setIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\RefreshButton.png"));
+		refreshbtn.setIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/RefreshButton.png")));
 		refreshbtn.setBorderPainted(false);
 		refreshbtn.setFocusPainted(false);
 		refreshbtn.setContentAreaFilled(false);
 		refreshbtn.setRolloverEnabled(true);
-		refreshbtn.setRolloverIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\RefreshButton_Hover.png"));
+		refreshbtn.setRolloverIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/RefreshButton_Hover.png")));
 		refreshbtn.setBounds(478, 350, 65, 25);
 		add(refreshbtn);
 		
