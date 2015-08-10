@@ -83,6 +83,32 @@ public class UsersDAO {
 				DatabaseTool.closeConnection(conn, ps);
 			}
 		}
+		
+		public UserBean getUserWithLSUID(String LSUID) throws Exception {
+			Connection conn = null;
+			PreparedStatement ps = null;
+			try {
+				conn = factory.getConnection();
+				ps = conn.prepareStatement("SELECT * FROM users WHERE LSUID = ?");
+				ps.setString(1, LSUID);
+				ResultSet rs = ps.executeQuery();
+				if (rs.next()){
+					UserBean result = userloader.loadSingle(rs); 
+					rs.close();
+					ps.close();
+					return result;
+				}
+				else{
+					rs.close();
+					ps.close();
+					return null;
+				}
+			} catch (SQLException e) {
+				throw new Exception("Error connecting to database.");
+			} finally {
+				DatabaseTool.closeConnection(conn, ps);
+			}
+		}
 
 		public UserBean getUser(String userName) throws Exception {
 			Connection conn = null;

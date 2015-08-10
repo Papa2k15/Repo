@@ -1,6 +1,5 @@
 package ludum.vita.actions;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import ludum.vita.beans.MissionBean;
@@ -18,29 +17,18 @@ public class MissionController {
 		missionHandler = factory.getMissionsDAO();
 	}
 
-	public List<String> addMission(MissionBean mission) throws Exception{
-		List<String> problems = new LinkedList<String>();
-		if(mission.getTitle().length() <= 0){
-			problems.add("Mission title length needs to be greater than 0.");
-		}
-		if(mission.getDescription().length() <= 0){
-			problems.add("Mission description length needs to be greater than 0.");
-		}
-		if(mission.getLSUID().length() <= 0){
-			problems.add("Valid user is not logged in.");
-		}
-		if(mission.getTrackerGoal() <= 0){
-			problems.add("Goal need sto have a positive value.");
-		}
-		if(mission.getUnits().length() <= 0){
-			problems.add("Mission title length needs to be greater than 0.");
-		}
-		if(problems.size() <= 0){
-			missionHandler.addMission(mission);
-		} 
-		return problems;
+	public void addMission(MissionBean mission) throws Exception{
+		missionHandler.addMission(mission);
 	}
 	
+	public void removeMission(String LSMID) throws Exception{
+		MissionBean removeMission = missionHandler.getMission(LSMID);
+		missionHandler.removeMission(removeMission);
+	}
+	
+	public List<MissionBean> getAllMissionsForUser() throws Exception{
+		return missionHandler.getAllMissionsForUser(loggedLSUID);
+	}
 
 	/**
 	 * @return the loggedLSUID

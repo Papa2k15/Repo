@@ -40,6 +40,7 @@ public class LSMain extends JFrame implements ActionListener {
 	private JButton quitbtn;
 	private JLabel usernamelbl;
 	private JLabel passwordlbl;
+	private LifeScore lifeScore;
 	/**
 	 * Create the application.
 	 * @param factory 
@@ -152,6 +153,9 @@ public class LSMain extends JFrame implements ActionListener {
 					try {
 						if(logAction.login(usernametxtfld.getText(), new String(passwordtxtfld.getPassword()))){
 							JOptionPane.showMessageDialog(this, "Login Succssful.");
+							setVisible(false);
+							lifeScore = new LifeScore(logAction.getCurrentLoggedLSUID(), factory);
+							lifeScore.setVisible(true);
 						} else {
 							JOptionPane.showMessageDialog(this, "Login Failed.");
 						}
