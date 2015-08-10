@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,10 +17,12 @@ import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
 import ludum.vita.actions.MissionController;
 import ludum.vita.beans.MissionBean;
 import ludum.vita.dao.DatabaseFactory;
 import ludum.vita.gui.helpers.JTextFieldLimit;
+
 import javax.swing.ListSelectionModel;
 
 public class MissionControlPanel extends JPanel implements ActionListener {
@@ -43,6 +46,7 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 	private JLabel descriptionlbl;
 	private JLabel unitslbl;
 	private JLabel goallbl;
+	private MissionBean currentEditMission;
 	
 
 	/**
@@ -129,7 +133,13 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 		goaltxtfld.setBounds(52, 314, 110, 25);
 		add(goaltxtfld);
 		
-		addMissionbtn = new JButton("Add");
+		addMissionbtn = new JButton("");
+		addMissionbtn.setIcon(new ImageIcon(MissionControlPanel.class.getResource("/ludum/resources/images/AddButton.png")));
+		addMissionbtn.setBorderPainted(false);
+		addMissionbtn.setFocusPainted(false);
+		addMissionbtn.setContentAreaFilled(false);
+		addMissionbtn.setRolloverEnabled(true);
+		addMissionbtn.setRolloverIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/AddButton_Hover.png")));
 		addMissionbtn.addActionListener(this);
 		addMissionbtn.setBounds(172, 314, 65, 25);
 		add(addMissionbtn);
@@ -170,7 +180,13 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 		currentMissions.setBounds(281, 101, 246, 25);
 		add(currentMissions);
 		
-		editSelectedMissionbtn = new JButton("Edit");
+		editSelectedMissionbtn = new JButton("");
+		editSelectedMissionbtn.setIcon(new ImageIcon(MissionControlPanel.class.getResource("/ludum/resources/images/EditButton.png")));
+		editSelectedMissionbtn.setBorderPainted(false);
+		editSelectedMissionbtn.setFocusPainted(false);
+		editSelectedMissionbtn.setContentAreaFilled(false);
+		editSelectedMissionbtn.setRolloverEnabled(true);
+		editSelectedMissionbtn.setRolloverIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/EditButton_Hover.png")));
 		editSelectedMissionbtn.addActionListener(this);
 		editSelectedMissionbtn.setBounds(266, 350, 65, 25);
 		add(editSelectedMissionbtn);
@@ -198,10 +214,23 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == addMissionbtn){
-			try {
-				addMission();
-			} catch (Exception e1) {
-				JOptionPane.showMessageDialog(this, e1.getMessage());
+			if(currentEditMission == null){
+				try {
+					addMission();
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(this, e1.getMessage());
+				}
+			} else {
+				try {
+					System.out.println("UPDATING..." + currentEditMission.getLSMID() + "\n" +
+				currentEditMission.getLSUID());
+					control.updateMission(currentEditMission);
+					clearText();
+					updateMissions();
+				} catch (Exception e1) {
+					JOptionPane.showMessageDialog(this, e1.getMessage());
+				}
+				currentEditMission = null;
 			}
 		} else if (e.getSource() == removeSelectedMissionbtn){
 			try {
@@ -210,7 +239,14 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(this, e1.getMessage());
 			}
 		} else if (e.getSource() == editSelectedMissionbtn){
-			
+			try {
+				currentEditMission = editMission();
+				if(currentEditMission == null){
+					JOptionPane.showMessageDialog(this, "Error with retreiving mission.");
+				}
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(this, e1.getMessage());
+			}
 		}
 	}
 	
@@ -295,6 +331,26 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 		} else {
 			JOptionPane.showMessageDialog(this, "No mission selected.");
 		}
+	}
+	
+	private MissionBean editMission() throws Exception {
+		int selectedIndex = missionList.getSelectedIndex();
+		if(selectedIndex > 0){
+			String editLSMID = missionModelBeanVersion.get(selectedIndex).getLSMID();
+			try {
+				MissionBean editMission = control.getMission(editLSMID);
+				titletxtfld.setText(editMission.getTitle());
+				descriptiontxtarea.setText(editMission.getDescription());
+				goaltxtfld.setText(""+editMission.getTrackerGoal());
+				unittxtfld.setText(editMission.getUnits());
+				return editMission;
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(this, e.getMessage());
+			}
+		} else {
+			JOptionPane.showMessageDialog(this, "No mission selected.");
+		}
+		return null;
 	}
 
 	private void clearText() {

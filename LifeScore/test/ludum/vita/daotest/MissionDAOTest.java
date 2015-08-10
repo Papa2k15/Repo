@@ -13,7 +13,7 @@ import org.junit.Test;
 
 public class MissionDAOTest {
 	
-	private DatabaseFactory factory;
+	private DatabaseFactory factory = DatabaseFactory.getProductionInstance();
 	private MissionDAO missions;
 	private UserBean user;
 	private MissionBean mission1;
@@ -23,7 +23,7 @@ public class MissionDAOTest {
 	@Before
 	public void setUp() throws Exception {
 		dataGen.generateUsers();
-		factory = DatabaseFactory.getProductionInstance();
+		dataGen.generateMissions();
 		missions = factory.getMissionsDAO();
 		user = factory.getUsersDAO().getUser("Papa2k15");
 		mission1 = new MissionBean(user.getLSUID(), "Jog", 3, "miles");
@@ -38,13 +38,20 @@ public class MissionDAOTest {
 	
 	@Test
 	public void testAddMission() throws Exception {
-		assertEquals(0, missions.getAllMissions().size());
-		missions.addMission(mission1);
-		assertEquals(1, missions.getAllMissions().size());
-		missions.addMission(mission1);
 		assertEquals(2, missions.getAllMissions().size());
-		missions.addMission(mission2);
+		missions.addMission(mission1);
 		assertEquals(3, missions.getAllMissions().size());
+		missions.addMission(mission1);
+		assertEquals(4, missions.getAllMissions().size());
+		missions.addMission(mission2);
+		assertEquals(5, missions.getAllMissions().size());
+	}
+	
+	@Test
+	public void testEditMission() throws Exception {
+		assertEquals(2, missions.getAllMissions().size());
+		assertEquals("Jog", missions.getMission("X1").getTitle());
+		
 	}
 
 	@After

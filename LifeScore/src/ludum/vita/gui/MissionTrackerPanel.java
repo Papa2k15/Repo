@@ -3,34 +3,32 @@ package ludum.vita.gui;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
-
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
-
 import ludum.vita.actions.MissionController;
 import ludum.vita.dao.DatabaseFactory;
-
 import javax.swing.JScrollBar;
-
+import javax.swing.event.MouseInputListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-public class MissionTrackerPanel extends JLayeredPane implements AdjustmentListener, MouseWheelListener{
+public class MissionTrackerPanel extends JLayeredPane implements AdjustmentListener, MouseWheelListener, MouseInputListener{
 
 	private static final long serialVersionUID = 1L;
 	private MissionController controller;
 	private JScrollBar mainScroll;
 	private List<MissionTrackerSlate> missions;
 	private int initialScrollY;
+	public static final int PANEL_HEIGHT = 250;
 
 	/**
 	 * Create the panel.
@@ -42,9 +40,10 @@ public class MissionTrackerPanel extends JLayeredPane implements AdjustmentListe
 		//CONSTRUCT
 		try {
 			for(int i = 0; i < controller.getAllMissionsForUser().size();i++){
-				MissionTrackerSlate m = new MissionTrackerSlate(controller.getAllMissionsForUser().get(i));
+				MissionTrackerSlate m = new MissionTrackerSlate(controller.getAllMissionsForUser().get(i), controller);
 				m.setBackground(new Color(new Random().nextInt(255),new Random().nextInt(255),new Random().nextInt(255)));
-				m.setBounds(10, 47+(i*200), 506, 200);
+				m.setBounds(10, 47+(i*PANEL_HEIGHT), 506, PANEL_HEIGHT);
+				m.addMouseListener(this);
 				missions.add(m);
 				add(m,2,0); //Lower layer
 			}
@@ -70,7 +69,7 @@ public class MissionTrackerPanel extends JLayeredPane implements AdjustmentListe
 		mainScroll.addAdjustmentListener(this);
 		mainScroll.setBounds(526, 47, 17, 323);
 		try {
-			mainScroll.setMaximum(200*controller.getAllMissionsForUser().size());
+			mainScroll.setMaximum(PANEL_HEIGHT*controller.getAllMissionsForUser().size());
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -103,19 +102,55 @@ public class MissionTrackerPanel extends JLayeredPane implements AdjustmentListe
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-//		int notches = e.getWheelRotation();
-//		if (notches < 0) {
-//			for(Component mission: getComponents()){
-//				if(mission instanceof MissionTrackerSlate){
-//					mission.setBounds(mission.getX(),mission.getY()-notches, mission.getWidth(), mission.getHeight());
-//				}
-//			}
-//		} else {
-//			for(Component mission: getComponents()){
-//				if(mission instanceof MissionTrackerSlate){
-//					mission.setBounds(mission.getX(),mission.getY()+notches, mission.getWidth(), mission.getHeight());
-//				}
-//			}
-//		}
+		if (e.getWheelRotation() < 0) {
+			mainScroll.setValue(mainScroll.getValue()-50);
+		} else {
+			mainScroll.setValue(mainScroll.getValue()+50);
+		}
+		repaint();
+		revalidate();
+		updateUI();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		setFocusable(false);
+		arg0.getComponent().requestFocus();
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		setFocusable(true);		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

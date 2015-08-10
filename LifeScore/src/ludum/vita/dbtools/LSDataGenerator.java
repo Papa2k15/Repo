@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import ludum.vita.dao.DatabaseFactory;
 
 public class LSDataGenerator {
-	
+
 	public static void main(String[] args) throws IOException, SQLException {
 		LSDataGenerator gen = new LSDataGenerator();
 		gen.clearAllTables();
-		gen.standardData();
+		//gen.standardData();
 	}
 
 	private String DIR = "sql/data";
@@ -25,18 +25,22 @@ public class LSDataGenerator {
 		this.DIR = projectHome + "/sql/data";
 		this.factory = factory;
 	}
-	
+
 	public void clearAllTables() throws SQLException, FileNotFoundException, IOException {
 		new DBBuilder(factory).executeSQLFile(DIR + "/deleteFromAllTables.sql");
 	}
 
 	public void standardData() throws FileNotFoundException, IOException, SQLException {
 		generateUsers();
+		generateMissions();
 		System.out.println("Operation completed.");
 	}
-	
-	// TODO
+
 	public void generateUsers() throws SQLException, FileNotFoundException, IOException{
 		new DBBuilder(factory).executeSQLFile(DIR+"/users.sql");
+	}
+
+	public void generateMissions() throws SQLException, FileNotFoundException, IOException{
+		new DBBuilder(factory).executeSQLFile(DIR+"/missions.sql");
 	}
 }

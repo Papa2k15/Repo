@@ -29,6 +29,14 @@ public class MissionController {
 	public List<MissionBean> getAllMissionsForUser() throws Exception{
 		return missionHandler.getAllMissionsForUser(loggedLSUID);
 	}
+	
+	public MissionBean getMission(String LSMID) throws Exception{
+		return missionHandler.getMission(LSMID);
+	}
+	
+	public void updateMission(MissionBean mission) throws Exception{
+		missionHandler.updateMission(mission);
+	}
 
 	/**
 	 * @return the loggedLSUID
