@@ -11,7 +11,7 @@ public class LSDataGenerator {
 	public static void main(String[] args) throws IOException, SQLException {
 		LSDataGenerator gen = new LSDataGenerator();
 		gen.clearAllTables();
-		//gen.standardData();
+		gen.standardData();
 	}
 
 	private String DIR = "sql/data";

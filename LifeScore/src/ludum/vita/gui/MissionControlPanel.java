@@ -206,10 +206,8 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 		refreshbtn.setRolloverEnabled(true);
 		refreshbtn.setRolloverIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/RefreshButton_Hover.png")));
 		refreshbtn.setBounds(478, 350, 65, 25);
-		add(refreshbtn);
-		
+		add(refreshbtn);	
 	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -222,11 +220,7 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 				}
 			} else {
 				try {
-					System.out.println("UPDATING..." + currentEditMission.getLSMID() + "\n" +
-				currentEditMission.getLSUID());
-					control.updateMission(currentEditMission);
-					clearText();
-					updateMissions();
+					updateMission();
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(this, e1.getMessage());
 				}
@@ -250,7 +244,60 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 		}
 	}
 	
-	
+	private void updateMission() throws Exception {
+		String problems = "";
+		String title = titletxtfld.getText();
+		String description = descriptiontxtarea.getText();
+		int goal = 0;
+		try {
+			goal = Integer.parseInt(goaltxtfld.getText());
+		} catch (NumberFormatException e){
+			goallbl.setForeground(Color.RED);
+			problems += "Goal should be of integer value (e.g. 1, 34, 490).\n";
+		}
+		String unit = unittxtfld.getText();
+		if(title.length() <= 0){
+			titlelbl.setForeground(Color.RED);
+			problems += "Mission title length needs to be greater than 0.\n";
+		} else {
+			titlelbl.setForeground(Color.BLACK);
+		}
+		if(description.length() <= 0){
+			descriptionlbl.setForeground(Color.RED);
+			problems += "Mission description length needs to be greater than 0.\n";
+		} else {
+			descriptionlbl.setForeground(Color.BLACK);
+		}
+		if(control.getLoggedLSUID() == null && control.getLoggedLSUID() == ""){
+			problems += "Valid user is not logged in.\n";
+			//SPECIAL CASE
+		}
+		if(goal <= 0){
+			goallbl.setForeground(Color.RED);
+			problems += "Goal needs to have a positive value.\n";
+		} else {
+			goallbl.setForeground(Color.BLACK);
+		}
+		if(unit.length() <= 0){
+			unitslbl.setForeground(Color.RED);
+			problems += "Units has to be at least one character.\n";
+		} else {
+			unitslbl.setForeground(Color.BLACK);
+		}
+		if(problems.length()>0){
+			String error = "Errors\n" + problems;
+			throw new IllegalArgumentException(error);
+		} else {
+			currentEditMission.setTitle(titletxtfld.getText());
+			currentEditMission.setDescription(descriptiontxtarea.getText());
+			currentEditMission.setTrackerGoal(Integer.parseInt(goaltxtfld.getText()));
+			currentEditMission.setUnits(unittxtfld.getText());
+			control.updateMission(currentEditMission);
+			clearText();
+			updateMissions();
+		}
+	}
+
 	private void updateMissions() {
 		missionModelStringVersion = new DefaultListModel<String>();
 		missionModelBeanVersion = new DefaultListModel<MissionBean>();
@@ -335,10 +382,9 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 	
 	private MissionBean editMission() throws Exception {
 		int selectedIndex = missionList.getSelectedIndex();
-		if(selectedIndex > 0){
-			String editLSMID = missionModelBeanVersion.get(selectedIndex).getLSMID();
+		if(selectedIndex >= 0){
 			try {
-				MissionBean editMission = control.getMission(editLSMID);
+				MissionBean editMission = missionModelBeanVersion.get(selectedIndex);
 				titletxtfld.setText(editMission.getTitle());
 				descriptiontxtarea.setText(editMission.getDescription());
 				goaltxtfld.setText(""+editMission.getTrackerGoal());

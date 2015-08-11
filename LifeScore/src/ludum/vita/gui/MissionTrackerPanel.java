@@ -71,7 +71,7 @@ public class MissionTrackerPanel extends JLayeredPane implements AdjustmentListe
 		try {
 			mainScroll.setMaximum(PANEL_HEIGHT*controller.getAllMissionsForUser().size());
 		} catch (Exception e1) {
-			e1.printStackTrace();
+			JOptionPane.showMessageDialog(this, e1.getMessage());
 		}
 		initialScrollY = 0;
 		add(mainScroll);

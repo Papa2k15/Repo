@@ -38,20 +38,23 @@ public class MissionDAOTest {
 	
 	@Test
 	public void testAddMission() throws Exception {
-		assertEquals(2, missions.getAllMissions().size());
-		missions.addMission(mission1);
 		assertEquals(3, missions.getAllMissions().size());
 		missions.addMission(mission1);
 		assertEquals(4, missions.getAllMissions().size());
-		missions.addMission(mission2);
+		missions.addMission(mission1);
 		assertEquals(5, missions.getAllMissions().size());
+		missions.addMission(mission2);
+		assertEquals(6, missions.getAllMissions().size());
 	}
 	
 	@Test
 	public void testEditMission() throws Exception {
-		assertEquals(2, missions.getAllMissions().size());
+		assertEquals(3, missions.getAllMissions().size());
 		assertEquals("Jog", missions.getMission("X1").getTitle());
-		
+		MissionBean update = missions.getMission("X1");
+		update.setTitle("Jog for kids");
+		missions.updateMission(update);
+		assertEquals("Jog for kids", missions.getMission("X1").getTitle());		
 	}
 
 	@After

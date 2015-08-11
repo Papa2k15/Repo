@@ -19,7 +19,7 @@ VALUES (
 '2',
 'miles',
 '1993-10-01',
-'0000-00-00',
+'1970-01-01',
 false);
 
 /*Inserting mission2 for Gregory Daniels*/
@@ -43,7 +43,7 @@ VALUES (
 '10',
 'pages',
 '2000-10-01',
-'0000-00-00',
+'1970-01-01',
 false);
 
 /*Inserting mission3 for Gregory Daniels*/

@@ -151,8 +151,7 @@ public class MissionDAO {
 		PreparedStatement ps = null;
 		try {
 			conn = factory.getConnection();
-			ps = conn
-					.prepareStatement("SELECT * FROM missions WHERE LSUID = ?");
+			ps = conn.prepareStatement("SELECT * FROM missions WHERE LSUID = ?");
 			ps.setString(1, LSUID);
 			ResultSet rs = ps.executeQuery();
 			List<MissionBean> loadlist = missionloader.loadList(rs);
