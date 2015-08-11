@@ -3,18 +3,13 @@ package ludum.vita.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
 import java.awt.BorderLayout;
-
 import javax.swing.JLabel;
-
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
@@ -23,7 +18,6 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.UnsupportedLookAndFeelException;
-
 import ludum.vita.actions.LoginAction;
 import ludum.vita.dao.DatabaseFactory;
 import ludum.vita.gui.helpers.JTextFieldLimit;
@@ -41,6 +35,7 @@ public class LSMain extends JFrame implements ActionListener {
 	private JLabel usernamelbl;
 	private JLabel passwordlbl;
 	private LifeScore lifeScore;
+	private LSRegister register;
 	/**
 	 * Create the application.
 	 * @param factory 
@@ -81,7 +76,7 @@ public class LSMain extends JFrame implements ActionListener {
 		getContentPane().add(welcomepnl, BorderLayout.CENTER);
 		welcomepnl.setLayout(null);
 		JLabel lifeScoreTitlelbl = new JLabel("");
-		lifeScoreTitlelbl.setIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\WelcomeLogo.png"));
+		lifeScoreTitlelbl.setIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/WelcomeLogo.png")));
 		lifeScoreTitlelbl.setHorizontalAlignment(SwingConstants.CENTER);
 		lifeScoreTitlelbl.setFont(new Font("Sylfaen", Font.PLAIN, 15));
 		lifeScoreTitlelbl.setBounds(10, 11, 384, 90);
@@ -153,8 +148,10 @@ public class LSMain extends JFrame implements ActionListener {
 					try {
 						if(logAction.login(usernametxtfld.getText(), new String(passwordtxtfld.getPassword()))){
 							JOptionPane.showMessageDialog(this, "Login Succssful.");
+							usernametxtfld.setText("");
+							passwordtxtfld.setText("");
 							setVisible(false);
-							lifeScore = new LifeScore(logAction.getCurrentLoggedLSUID(), factory);
+							lifeScore = new LifeScore(logAction.getCurrentLoggedLSUID(), factory, this);
 							lifeScore.setVisible(true);
 						} else {
 							JOptionPane.showMessageDialog(this, "Login Failed.");
@@ -164,14 +161,16 @@ public class LSMain extends JFrame implements ActionListener {
 					}
 				} else {
 					passwordlbl.setForeground(Color.RED);
-					JOptionPane.showMessageDialog(this, "Username length must be greater than 6.");
+					JOptionPane.showMessageDialog(this, "Invalid credentials.");
 				}
 			} else {
 				usernamelbl.setForeground(Color.RED);
-				JOptionPane.showMessageDialog(this, "Username length must be greater than 8.");
+				JOptionPane.showMessageDialog(this, "Invalid credentials.");
 			}
 		} else if (action.getSource() == registerbtn){
-
+			register = new LSRegister(factory,this);
+			register.setVisible(true);
+			setVisible(false);
 		} else if (action.getSource() == quitbtn) {
 			System.exit(0);
 		}

@@ -37,4 +37,8 @@ public class DatabaseFactory {
 	public MissionDAO getMissionsDAO(){
 		return new MissionDAO(this);
 	}
+	
+	public PointsDAO getPointsDAO(){
+		return new PointsDAO(this);
+	}
 }

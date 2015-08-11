@@ -4,3 +4,5 @@ DELETE FROM missions;
 ALTER TABLE missions AUTO_INCREMENT = 0;
 DELETE FROM demographics;
 ALTER TABLE demographics AUTO_INCREMENT = 0;
+DELETE FROM points;
+ALTER TABLE points AUTO_INCREMENT = 0;

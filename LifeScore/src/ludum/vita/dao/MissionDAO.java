@@ -181,6 +181,24 @@ public class MissionDAO {
 			DatabaseTool.closeConnection(conn, ps);
 		}
 	}
+	
+	public void removeAllUserMissions(String LSUID) throws Exception  {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			conn = factory.getConnection();
+			ps = conn.prepareStatement("DELETE FROM missions WHERE LSUID = ?");
+			ps.setString(1, LSUID);
+			ps.executeUpdate();
+			ps.close();
+		} catch (SQLException e) {
+			throw new Exception("Error connecting to database.");
+		} finally {
+			DatabaseTool.closeConnection(conn, ps);
+		}
+	}
+	
+	
 
 	//FOR TESTING ONLY
 	@SuppressWarnings("resource")

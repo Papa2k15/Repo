@@ -1,7 +1,5 @@
 package ludum.vita.actions;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,31 +15,48 @@ public class RegisterAction {
 		users = factory.getUsersDAO();
 	}
 
-	public List<String> register(String firstName, String userName, String password) throws Exception{
+	public void register(String firstName, String lastName, String userName, String password, String confirm, String email) throws Exception{
 		UserBean newUser = new UserBean(firstName, userName, password);
-		List<String> problems = validate(newUser);
-		if(problems.size() <= 0){
+		newUser.setLastName(lastName);
+		newUser.setEmail(email);
+		String problems = validate(newUser);
+		if(!password.equals(confirm)){
+			problems += "Password Error: Passwords much match\n";
+		}
+		if(problems.length() <= 0){
 			users.addUser(newUser);
-		} 
-		return problems;
+		} else { 
+			throw new IllegalArgumentException(problems);
+		}
 	}
 
-	private List<String> validate(UserBean newUser){
+	private String validate(UserBean newUser) throws Exception{
 		//USERNAME: ALP
 		//PASSWORD: CAN'T CONTAIN NUMBER 0, AT LEAST EIGHT CHARACTERS alphanumerica
-		List<String> errors = new LinkedList<String>();
+		String errors = "";
 		Pattern userValidation = Pattern.compile("[a-zA-Z0-9\\S]{6,100}");
 		Matcher m = userValidation.matcher(newUser.getUserName());
 		Pattern passwordValidation = Pattern.compile("[a-zA-Z0-9\\S]{8,100}");
 		Matcher n = passwordValidation.matcher(newUser.getPassword());
+		Pattern emailValidation =  Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+		Matcher o = emailValidation.matcher(newUser.getEmail());
 		if(newUser.getFirstName().length() <= 0){
-			errors.add("First name length must be greater than 0.");
+			errors += "First name length must be greater than 0.\n";
+		}
+		if(newUser.getLastName().length() <= 0){
+			errors += "Last name length must be greater than 0.\n";
 		}
 		if(!m.matches()){
-			errors.add("Alphanumeric characters with length between 6 to 100.");
+			errors += "Username Error: Alphanumeric characters with length between 6 to 100.\n";
+			if(users.checkUserName(newUser.getUserName())){
+				errors += "Username Error: Username is taken\n";
+			}
 		}
 		if(!n.matches() || newUser.getPassword().contains("0")){
-			errors.add("Alphanumeric characters with length between 8 to 100 and can't contain the 0 character.");
+			errors += "Password Error: Alphanumeric characters with length between 8 to 100 and can't contain the 0 character.\n";
+		}
+		if(!o.matches()){
+			errors += "Email Error: Invalid email address\n";
 		}
 		return errors;
 	}

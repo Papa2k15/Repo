@@ -17,7 +17,7 @@ public class LSIntro extends JFrame implements MouseInputListener {
 	public LSIntro() throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\Owner\\Repo\\LifeScore\\images\\Intro.gif"));
+		lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/Intro.gif")));
 		getContentPane().add(lblNewLabel, BorderLayout.CENTER);
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

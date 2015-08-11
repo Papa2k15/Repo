@@ -1,4 +1,4 @@
-package ludum.vita.gui;
+package ludum.vita.gui.panels;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;

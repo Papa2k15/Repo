@@ -1,4 +1,4 @@
-package ludum.vita.gui;
+package ludum.vita.gui.panels;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -191,7 +191,13 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 		editSelectedMissionbtn.setBounds(266, 350, 65, 25);
 		add(editSelectedMissionbtn);
 		
-		removeSelectedMissionbtn = new JButton("Remove");
+		removeSelectedMissionbtn = new JButton("");
+		removeSelectedMissionbtn.setIcon(new ImageIcon(MissionControlPanel.class.getResource("/ludum/resources/images/RemoveButton.png")));
+		removeSelectedMissionbtn.setBorderPainted(false);
+		removeSelectedMissionbtn.setFocusPainted(false);
+		removeSelectedMissionbtn.setContentAreaFilled(false);
+		removeSelectedMissionbtn.setRolloverEnabled(true);
+		removeSelectedMissionbtn.setRolloverIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/RemoveButton_Hover.png")));
 		removeSelectedMissionbtn.addActionListener(this);
 		removeSelectedMissionbtn.setBounds(370, 350, 65, 25);
 		add(removeSelectedMissionbtn);
@@ -221,10 +227,10 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 			} else {
 				try {
 					updateMission();
+					currentEditMission = null;
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(this, e1.getMessage());
 				}
-				currentEditMission = null;
 			}
 		} else if (e.getSource() == removeSelectedMissionbtn){
 			try {
@@ -241,6 +247,13 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(this, e1.getMessage());
 			}
+		} else if (e.getSource() == clearbtn){
+			int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to clear all data?");
+			if(confirm == JOptionPane.OK_OPTION){
+				clearText();
+			} 
+		} else if (e.getSource() == refreshbtn){
+			updateMissions();
 		}
 	}
 	

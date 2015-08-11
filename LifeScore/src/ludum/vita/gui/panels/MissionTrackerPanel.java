@@ -1,4 +1,4 @@
-package ludum.vita.gui;
+package ludum.vita.gui.panels;
 
 import java.awt.Color;
 import java.awt.Component;

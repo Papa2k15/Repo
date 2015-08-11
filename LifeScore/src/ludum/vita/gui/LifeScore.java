@@ -22,6 +22,9 @@ import java.awt.event.ActionListener;
 import javax.swing.border.TitledBorder;
 
 import ludum.vita.dao.DatabaseFactory;
+import ludum.vita.gui.panels.HomePanel;
+import ludum.vita.gui.panels.MissionControlPanel;
+import ludum.vita.gui.panels.MissionTrackerPanel;
 
 public class LifeScore extends JFrame implements ActionListener {
 
@@ -35,7 +38,13 @@ public class LifeScore extends JFrame implements ActionListener {
 	private DatabaseFactory factory;
 	private String loggedLSUID;
 	private JButton missionTrackerbtn;
-
+	private HomePanel homePanel;
+	private JLabel lblNewLabel;
+	private JButton gamebtn;
+	private JButton settingsbtn;
+	private JButton logoutbtn;
+	private JButton aboutbtn;
+	private LSMain main;
 	/**
 	 * Launch the application.
 	 */
@@ -46,7 +55,7 @@ public class LifeScore extends JFrame implements ActionListener {
 				try {
 					DatabaseFactory factory = DatabaseFactory.getProductionInstance(); 
 					String gregsLSUID = "28cf1e5615f9a36b98084f30336c6a19554baead";
-					LifeScore window = new LifeScore(gregsLSUID, factory);
+					LifeScore window = new LifeScore(gregsLSUID, factory, new LSMain(factory));
 					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,13 +66,15 @@ public class LifeScore extends JFrame implements ActionListener {
 
 	/**
 	 * Create the application.
+	 * @param lsMain 
 	 * @throws UnsupportedLookAndFeelException 
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
 	 * @throws ClassNotFoundException 
 	 */
-	public LifeScore(String loggedLSUID, DatabaseFactory factory) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+	public LifeScore(String loggedLSUID, DatabaseFactory factory, LSMain main) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		this.loggedLSUID = loggedLSUID;
+		this.main = main;
 		initialize(factory);
 	}
 
@@ -78,6 +89,7 @@ public class LifeScore extends JFrame implements ActionListener {
 		this.factory = factory;
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		setTitle("Life Score");
+		setSize(660, 456);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension frameSize = getSize();
 		if (frameSize.height > screenSize.height) {
@@ -89,7 +101,6 @@ public class LifeScore extends JFrame implements ActionListener {
 		setLocation((screenSize.width - frameSize.width) / 2, (screenSize.height - frameSize.height) / 2);
 		setResizable(false);
 		setVisible(false);
-		setBounds(100, 100, 660, 456);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 
@@ -99,6 +110,7 @@ public class LifeScore extends JFrame implements ActionListener {
 		getContentPane().add(loggedInpnl);
 
 		homebtn = new JButton("");
+		homebtn.setToolTipText("Home");
 		homebtn.addActionListener(this);
 		homebtn.setIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/HomeButton.png")));
 		homebtn.setBorderPainted(false);
@@ -109,6 +121,7 @@ public class LifeScore extends JFrame implements ActionListener {
 		homebtn.setBounds(12, 13, 68, 68);
 
 		missionControlbtn = new JButton("");
+		missionControlbtn.setToolTipText("Mission Control");
 		missionControlbtn.addActionListener(this);
 		missionControlbtn.setBounds(12, 92, 68, 68);
 		missionControlbtn.setIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/MissionControlButton.png")));
@@ -125,6 +138,11 @@ public class LifeScore extends JFrame implements ActionListener {
 		menupnl.setBounds(89, 33, 553, 381);
 		loggedInpnl.add(menupnl);
 		menupnl.setLayout(null);
+		
+		lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(LifeScore.class.getResource("/ludum/resources/images/WelcomeLogo.png")));
+		lblNewLabel.setBounds(67, 21, 413, 82);
+		menupnl.add(lblNewLabel);
 		loggedInpnl.add(homebtn);
 		loggedInpnl.add(missionControlbtn);
 
@@ -137,10 +155,11 @@ public class LifeScore extends JFrame implements ActionListener {
 		}
 		lblWelcome.setFont(new Font("Segoe UI", Font.PLAIN, 11));
 		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
-		lblWelcome.setBounds(89, 0, 553, 32);
+		lblWelcome.setBounds(89, 0, 244, 32);
 		loggedInpnl.add(lblWelcome);
 
 		missionTrackerbtn = new JButton("");
+		missionTrackerbtn.setToolTipText("Mission Tracker");
 		missionTrackerbtn.addActionListener(this);
 		missionTrackerbtn.setIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/TrackMissionButton.png")));
 		missionTrackerbtn.setBorderPainted(false);
@@ -150,6 +169,24 @@ public class LifeScore extends JFrame implements ActionListener {
 		missionTrackerbtn.setRolloverIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/TrackMissionButton_Hover.png")));
 		missionTrackerbtn.setBounds(12, 171, 68, 68);
 		loggedInpnl.add(missionTrackerbtn);
+		
+		gamebtn = new JButton("game");
+		gamebtn.setBounds(12, 250, 68, 68);
+		loggedInpnl.add(gamebtn);
+		
+		settingsbtn = new JButton("settings");
+		settingsbtn.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		settingsbtn.setBounds(12, 329, 68, 68);
+		loggedInpnl.add(settingsbtn);
+		
+		logoutbtn = new JButton("logout");
+		logoutbtn.addActionListener(this);
+		logoutbtn.setBounds(567, 6, 77, 23);
+		loggedInpnl.add(logoutbtn);
+		
+		aboutbtn = new JButton("about");
+		aboutbtn.setBounds(480, 6, 77, 23);
+		loggedInpnl.add(aboutbtn);
 	}
 
 	@Override
@@ -163,6 +200,10 @@ public class LifeScore extends JFrame implements ActionListener {
 				menupnl.remove(missionPanel);
 				missionPanel = null;
 			}
+			if(homePanel == null){
+				homePanel = new HomePanel();
+				menupnl.add(homePanel);
+			}
 			menupnl.repaint();
 			menupnl.revalidate();
 			menupnl.updateUI();
@@ -170,6 +211,10 @@ public class LifeScore extends JFrame implements ActionListener {
 			if(missionTracker != null){
 				menupnl.remove(missionTracker);
 				missionTracker = null;
+			}
+			if(homePanel != null){
+				menupnl.remove(homePanel);
+				homePanel = null;
 			}
 			if(missionPanel == null){
 				missionPanel = new MissionControlPanel(loggedLSUID, factory);
@@ -183,6 +228,10 @@ public class LifeScore extends JFrame implements ActionListener {
 				menupnl.remove(missionPanel);
 				missionPanel = null;
 			}
+			if(homePanel != null){
+				menupnl.remove(homePanel);
+				homePanel = null;
+			}
 			if(missionTracker == null){
 				missionTracker = new MissionTrackerPanel(loggedLSUID, factory);
 				menupnl.add(missionTracker);
@@ -190,10 +239,11 @@ public class LifeScore extends JFrame implements ActionListener {
 			menupnl.repaint();
 			menupnl.revalidate();
 			menupnl.updateUI();
+		} else if (event.getSource() == logoutbtn){
+			setVisible(false);
+			main.setVisible(true);;
 		}
 	}
 
-	public void clearPanel(){
-
-	}
+	
 }
