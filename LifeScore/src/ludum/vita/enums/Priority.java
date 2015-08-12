@@ -1,9 +1,9 @@
 package ludum.vita.enums;
 
 public enum Priority {
-	LOW("Low"),
-	NORMAL("Normal"),
-	HIGH("High");
+	LOW("low"),
+	NORMAL("normal"),
+	HIGH("high");
 	
 	private String priority;
 	

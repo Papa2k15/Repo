@@ -40,6 +40,7 @@ public class MissionLoader implements BeanLoader<MissionBean> {
 		try {
 			mBean.setPriority(Priority.parse(rs.getString("priority")));
 		} catch (Exception e) {
+			System.out.println("HSD");
 			throw new SQLException(e.getMessage());
 		}
 		return mBean;
