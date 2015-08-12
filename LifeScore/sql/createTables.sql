@@ -26,6 +26,7 @@ CREATE TABLE missions(
 	startDate	DATE default '0000-00-00',
 	endDate		DATE default '0000-00-00',	
 	complete	BOOLEAN default false,
+	priority    VARCHAR(6),
 	PRIMARY  KEY (LSMID)
 ) ENGINE=MyISAM; 
 

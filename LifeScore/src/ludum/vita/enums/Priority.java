@@ -14,4 +14,13 @@ public enum Priority {
 	public String getPriority(){
 		return priority;
 	}
+
+	public static Priority parse(String priority) throws Exception {
+		for(Priority p : values()){
+			if(priority.equals(p.getPriority())){
+				return p;
+			}
+		}
+		throw new Exception("Can't parse priority: " + priority);
+	}
 }

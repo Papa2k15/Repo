@@ -29,6 +29,7 @@ public class MissionTrackerSlate extends JPanel implements ActionListener, KeyLi
 	private JLabel lblInterval;
 	private JLabel startDatelbl;
 	private JLabel endDatelbl;
+	private JLabel completeSticker;
 	
 	/**
 	 * Create the panel.
@@ -66,8 +67,9 @@ public class MissionTrackerSlate extends JPanel implements ActionListener, KeyLi
 		increaseButton.setFocusPainted(false);
 		increaseButton.setContentAreaFilled(false);
 		increaseButton.setBounds(428, 126, 28, 25);
-		add(increaseButton);
-		
+		if(!mission.isMissionComplete()){
+			add(increaseButton);
+		}
 		decreaseButton = new JButton("");
 		decreaseButton.addActionListener(this);
 		decreaseButton.setFocusable(false);
@@ -76,7 +78,9 @@ public class MissionTrackerSlate extends JPanel implements ActionListener, KeyLi
 		decreaseButton.setFocusPainted(false);
 		decreaseButton.setContentAreaFilled(false);
 		decreaseButton.setBounds(393, 126, 28, 25);
-		add(decreaseButton);
+		if(!mission.isMissionComplete()){
+			add(decreaseButton);
+		}
 		
 		progressionlbl = new JLabel("Progress: " + mission.getTrackerValue() + " " + mission.getUnits());
 		progressionlbl.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -95,7 +99,9 @@ public class MissionTrackerSlate extends JPanel implements ActionListener, KeyLi
 		lblInterval.setHorizontalAlignment(SwingConstants.LEFT);
 		lblInterval.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		lblInterval.setBounds(253, 126, 130, 25);
-		add(lblInterval);
+		if(!mission.isMissionComplete()){
+			add(lblInterval);
+		}
 		
 		if(mission.isMissionComplete()){
 			endDatelbl = new JLabel("Date Completed: " + mission.getEndDateString());
@@ -106,6 +112,13 @@ public class MissionTrackerSlate extends JPanel implements ActionListener, KeyLi
 		endDatelbl.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 		endDatelbl.setBounds(10, 214, 200, 25);
 		add(endDatelbl);
+		
+		completeSticker = new JLabel("COMPLETE");
+		completeSticker.setHorizontalAlignment(SwingConstants.CENTER);
+		completeSticker.setBounds(277, 136, 178, 103);
+		if(mission.isMissionComplete()){
+			add(completeSticker);
+		}
 	}
 
 	/**
@@ -134,9 +147,16 @@ public class MissionTrackerSlate extends JPanel implements ActionListener, KeyLi
 		progressionlbl.setText("Progress: " + mission.getTrackerValue() + " " + mission.getUnits());
 		if(mission.isMissionComplete()){
 			endDatelbl.setText("Date Completed: " + mission.getEndDateString());
+			remove(increaseButton);
+			remove(decreaseButton);
+			remove(lblInterval);
+			add(completeSticker);
 		} else {
 			endDatelbl.setText("Date Completed: N/A");
 		}
+		repaint();
+		revalidate();
+		updateUI();
 	}
 
 	private synchronized void increase() {

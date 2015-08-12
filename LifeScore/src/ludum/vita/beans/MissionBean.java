@@ -7,6 +7,8 @@ import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import ludum.vita.enums.Priority;
+
 /**
  * A mission is simply a goal that a player plans to complete via
  * the objectives they set forth. 
@@ -34,6 +36,8 @@ public class MissionBean {
 	private String endDate = new SimpleDateFormat("MM/dd/yyyy").format(new Date());
 	
 	private boolean missionComplete = false;
+
+	private Priority priority = Priority.LOW;
 	
 	/**
 	 * @param LSUID
@@ -183,6 +187,14 @@ public class MissionBean {
 
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
+	}
+
+	public Priority getPriority() {
+		return priority;
+	}
+	
+	public void setPriority(Priority priority){
+		this.priority = priority;
 	}
 	
 }

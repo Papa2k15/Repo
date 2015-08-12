@@ -9,7 +9,8 @@ trackerGoal,
 unit,
 startDate,
 endDate,	
-complete)
+complete,
+priority)
 VALUES (
 'X1',
 '28cf1e5615f9a36b98084f30336c6a19554baead',
@@ -20,7 +21,8 @@ VALUES (
 'miles',
 '1993-10-01',
 '1970-01-01',
-false);
+false,
+'high');
 
 /*Inserting mission2 for Gregory Daniels*/
 INSERT INTO missions(
@@ -33,7 +35,8 @@ trackerGoal,
 unit,
 startDate,
 endDate,	
-complete)
+complete,
+priority)
 VALUES (
 'X2',
 '28cf1e5615f9a36b98084f30336c6a19554baead',
@@ -44,7 +47,8 @@ VALUES (
 'pages',
 '2000-10-01',
 '1970-01-01',
-false);
+false,
+'low');
 
 /*Inserting mission3 for Gregory Daniels*/
 INSERT INTO missions(
@@ -57,7 +61,8 @@ trackerGoal,
 unit,
 startDate,
 endDate,	
-complete)
+complete,
+priority)
 VALUES (
 'X3',
 '28cf1e5615f9a36b98084f30336c6a19554baead',
@@ -68,4 +73,5 @@ VALUES (
 'dances',
 '2000-10-01',
 '2010-01-10',
-true);
+true,
+'normal');

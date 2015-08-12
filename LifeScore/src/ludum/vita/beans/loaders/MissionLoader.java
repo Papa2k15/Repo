@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ludum.vita.beans.MissionBean;
+import ludum.vita.enums.Priority;
 
 /**
  * @author Owner
@@ -36,6 +37,11 @@ public class MissionLoader implements BeanLoader<MissionBean> {
 		mBean.setStartDate(new SimpleDateFormat("MM/dd/yyyy").format(new Date(rs.getDate("startDate").getTime())));
 		mBean.setEndDate(new SimpleDateFormat("MM/dd/yyyy").format(new Date(rs.getDate("endDate").getTime())));
 		mBean.setMissionComplete(rs.getBoolean("complete"));
+		try {
+			mBean.setPriority(Priority.parse(rs.getString("priority")));
+		} catch (Exception e) {
+			throw new SQLException(e.getMessage());
+		}
 		return mBean;
 	}
 

@@ -24,6 +24,9 @@ import ludum.vita.dao.DatabaseFactory;
 import ludum.vita.gui.helpers.JTextFieldLimit;
 
 import javax.swing.ListSelectionModel;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import ludum.vita.enums.Priority;
 
 public class MissionControlPanel extends JPanel implements ActionListener {
 
@@ -47,6 +50,8 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 	private JLabel unitslbl;
 	private JLabel goallbl;
 	private MissionBean currentEditMission;
+	private JLabel prioritylbl;
+	private JComboBox<Priority> prioritycbbx;
 	
 
 	/**
@@ -153,7 +158,7 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 		clearbtn.setContentAreaFilled(false);
 		clearbtn.setRolloverEnabled(true);
 		clearbtn.setRolloverIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/ClearButton_Hover.png")));
-		clearbtn.setBounds(62, 350, 65, 25);
+		clearbtn.setBounds(172, 350, 65, 25);
 		add(clearbtn);
 		
 		
@@ -213,6 +218,18 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 		refreshbtn.setRolloverIcon(new ImageIcon(getClass().getResource("/ludum/resources/images/RefreshButton_Hover.png")));
 		refreshbtn.setBounds(478, 350, 65, 25);
 		add(refreshbtn);	
+		
+		prioritylbl = new JLabel("Priority:");
+		prioritylbl.setHorizontalAlignment(SwingConstants.LEFT);
+		prioritylbl.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		prioritylbl.setBounds(10, 351, 54, 25);
+		add(prioritylbl);
+		
+		prioritycbbx = new JComboBox<Priority>();
+		prioritycbbx.setModel(new DefaultComboBoxModel<Priority>(Priority.values()));
+		prioritycbbx.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+		prioritycbbx.setBounds(62, 350, 100, 25);
+		add(prioritycbbx);
 	}
 
 	@Override
@@ -376,6 +393,7 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 		} else {
 			MissionBean newMission = new MissionBean(control.getLoggedLSUID(), title, goal, unit);
 			newMission.setDescription(description);
+			newMission.setPriority(((Priority)prioritycbbx.getSelectedItem()));
 			control.addMission(newMission);
 			clearText();
 			updateMissions();

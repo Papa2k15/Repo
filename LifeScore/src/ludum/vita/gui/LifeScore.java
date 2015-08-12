@@ -191,6 +191,9 @@ public class LifeScore extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		if(lblNewLabel.isVisible()){
+			lblNewLabel.setVisible(false);
+		}
 		if(event.getSource() == homebtn){
 			if(missionTracker != null){
 				menupnl.remove(missionTracker);
