@@ -33,9 +33,5 @@ CREATE TABLE missions(
 CREATE TABLE points(
 	LSUID		VARCHAR(100),
 	total  		BIGINT,
-	daily  		BIGINT, 
-	weekly  	BIGINT,
-	monthly 	BIGINT,
-	yearly	  	BIGINT,
 	PRIMARY KEY (LSUID)
 ) ENGINE=MyISAM;

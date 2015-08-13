@@ -18,8 +18,8 @@ public class PointsLoader implements BeanLoader<PointsBean> {
 
 	@Override
 	public PointsBean loadSingle(ResultSet rs) throws SQLException {
-		return new PointsBean(rs.getString("LSUID"), rs.getLong("total"), rs.getLong("daily"),
-				rs.getLong("weekly"), rs.getLong("monthly"), rs.getLong("yearly"));
+		PointsBean pointsBean = new PointsBean(rs.getString("LSUID"), rs.getLong("total"));
+		return pointsBean;
 	}
 
 	@Override

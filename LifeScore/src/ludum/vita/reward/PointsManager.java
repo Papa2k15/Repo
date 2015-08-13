@@ -2,7 +2,6 @@ package ludum.vita.reward;
 
 import java.text.ParseException;
 import java.util.Date;
-
 import ludum.vita.beans.MissionBean;
 import ludum.vita.enums.Priority;
 
@@ -16,10 +15,6 @@ public class PointsManager {
 	private static final int WEEK_POINTS = 2; 
 	private static final int MONTH_POINTS = 3; 
 	private static final int YEAR_POINTS = 5; 
-	private static final long DAY = 24*60*60*60*1000;
-	private static final long WEEK = 7 * DAY;
-	private static final long MONTH = 4 * WEEK;
-	private static final long YEAR = 12 * MONTH;
 
 	private PointsManager(){}
 	
@@ -29,18 +24,21 @@ public class PointsManager {
 	}
 
 	private static int missionLength(Date start, Date end){
-		long length = end.getTime() - start.getTime();
-		if (length < WEEK && length >= DAY){
-			return DAY_POINTS;
-		} else if (length < MONTH && length >= WEEK){
-			return WEEK_POINTS;
-		} else if (length < YEAR && length >= MONTH){
-			return MONTH_POINTS;
-		} else if (length >= YEAR) {
-			return YEAR_POINTS;
-		} else {
-			return 0;
-		}
+		long length = start.getTime() - end.getTime();
+		int points = 0;
+		if (TimeObserver.nextDay(length)){
+			points += DAY_POINTS;
+		} 
+		if (TimeObserver.nextWeek(length)){
+			points += WEEK_POINTS;
+		} 
+		if (TimeObserver.nextMonth(length)){
+			points += MONTH_POINTS;
+		} 
+		if (TimeObserver.nextYear(length)) {
+			points += YEAR_POINTS;
+		} 
+		return points;
 	}
 	
 	private static int missionPriority(Priority p) throws Exception{

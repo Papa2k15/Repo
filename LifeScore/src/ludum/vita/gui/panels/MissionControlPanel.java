@@ -52,6 +52,7 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 	private MissionBean currentEditMission;
 	private JLabel prioritylbl;
 	private JComboBox<Priority> prioritycbbx;
+	private static final String COMPLETE_STRING = "C-";
 	
 
 	/**
@@ -166,7 +167,11 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 		missionModelBeanVersion = new DefaultListModel<MissionBean>();
 		try {
 			for(MissionBean m : control.getAllMissionsForUser()){
-				missionModelStringVersion.addElement(m.getTitle());
+				if(m.isMissionComplete()){
+					missionModelStringVersion.addElement(COMPLETE_STRING+m.getTitle());
+				} else {
+					missionModelStringVersion.addElement(m.getTitle());
+				}
 				missionModelBeanVersion.addElement(m);
 			}
 		} catch (Exception e) {
@@ -249,6 +254,11 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 					JOptionPane.showMessageDialog(this, e1.getMessage());
 				}
 			}
+			titletxtfld.setEnabled(true);
+			descriptiontxtarea.setEnabled(true);
+			goaltxtfld.setEnabled(true);
+			unittxtfld.setEnabled(true);
+			prioritycbbx.setEnabled(true);
 		} else if (e.getSource() == removeSelectedMissionbtn){
 			try {
 				removeMission();
@@ -267,6 +277,7 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 		} else if (e.getSource() == clearbtn){
 			int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to clear all data?");
 			if(confirm == JOptionPane.OK_OPTION){
+				prioritycbbx.setSelectedIndex(0);
 				clearText();
 			} 
 		} else if (e.getSource() == refreshbtn){
@@ -322,6 +333,7 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 			currentEditMission.setDescription(descriptiontxtarea.getText());
 			currentEditMission.setTrackerGoal(Integer.parseInt(goaltxtfld.getText()));
 			currentEditMission.setUnits(unittxtfld.getText());
+			currentEditMission.setPriority((Priority)prioritycbbx.getSelectedItem());
 			control.updateMission(currentEditMission);
 			clearText();
 			updateMissions();
@@ -333,7 +345,11 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 		missionModelBeanVersion = new DefaultListModel<MissionBean>();
 		try {
 			for(MissionBean m : control.getAllMissionsForUser()){
-				missionModelStringVersion.addElement(m.getTitle());
+				if(m.isMissionComplete()){
+					missionModelStringVersion.addElement(COMPLETE_STRING+m.getTitle());
+				} else {
+					missionModelStringVersion.addElement(m.getTitle());
+				}
 				missionModelBeanVersion.addElement(m);
 			}
 		} catch (Exception e) {
@@ -402,7 +418,7 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 	
 	private void removeMission() throws Exception{
 		int selectedIndex = missionList.getSelectedIndex();
-		if(selectedIndex > 0){
+		if(selectedIndex >= 0){
 			String removeLSMID = missionModelBeanVersion.get(selectedIndex).getLSMID();
 			control.removeMission(removeLSMID);
 			updateMissions();
@@ -420,6 +436,20 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 				descriptiontxtarea.setText(editMission.getDescription());
 				goaltxtfld.setText(""+editMission.getTrackerGoal());
 				unittxtfld.setText(editMission.getUnits());
+				prioritycbbx.setSelectedItem(editMission.getPriority());
+				if(editMission.isMissionComplete()){
+					titletxtfld.setEnabled(false);
+					descriptiontxtarea.setEnabled(false);
+					goaltxtfld.setEnabled(false);
+					unittxtfld.setEnabled(false);
+					prioritycbbx.setEnabled(false);
+				} else {
+					titletxtfld.setEnabled(true);
+					descriptiontxtarea.setEnabled(true);
+					goaltxtfld.setEnabled(true);
+					unittxtfld.setEnabled(true);
+					prioritycbbx.setEnabled(true);
+				}
 				return editMission;
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(this, e.getMessage());
@@ -439,6 +469,7 @@ public class MissionControlPanel extends JPanel implements ActionListener {
 		goaltxtfld.setForeground(Color.black);
 		unittxtfld.setText("");
 		unittxtfld.setForeground(Color.black);
+		prioritycbbx.setSelectedIndex(0);
 	}
 }
 
