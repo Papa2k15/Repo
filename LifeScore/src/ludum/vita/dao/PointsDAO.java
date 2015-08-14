@@ -22,9 +22,13 @@ public class PointsDAO {
 		PreparedStatement ps = null;
 		try {
 			conn = factory.getConnection();
-			ps = conn.prepareStatement("INSERT INTO points (LSUID, total) VALUES (?,?)");
+			ps = conn.prepareStatement("INSERT INTO points (LSUID, total, daily, weekly, monthly, yearly) VALUES (?,?)");
 			ps.setString(1, pbean.getLSUID());
 			ps.setLong(2, pbean.gettotal());
+			ps.setLong(3, pbean.getDaily());
+			ps.setLong(4, pbean.getWeekly());
+			ps.setLong(5, pbean.getMonthly());
+			ps.setLong(6, pbean.getYearly());
 			ps.executeUpdate();
 			ps.close();
 			return DatabaseTool.getLastInsert(conn);
@@ -40,9 +44,13 @@ public class PointsDAO {
 		PreparedStatement ps = null;
 		try {
 			conn = factory.getConnection();
-			ps = conn.prepareStatement("UPDATE points SET total = ? WHERE LSUID = ?");
+			ps = conn.prepareStatement("UPDATE points SET total = ?, daily = ?, weekly = ?, monthly = ?, yearly = ? WHERE LSUID = ?");
 			ps.setLong(1, pointsBean.gettotal());
-			ps.setString(2, pointsBean.getLSUID());
+			ps.setLong(2, pointsBean.getDaily());
+			ps.setLong(3, pointsBean.getWeekly());
+			ps.setLong(4, pointsBean.getMonthly());
+			ps.setLong(5, pointsBean.getYearly());
+			ps.setString(6, pointsBean.getLSUID());
 			ps.executeUpdate();
 			ps.close();
 		} catch (SQLException e) {
