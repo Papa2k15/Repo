@@ -28,7 +28,7 @@ public class MissionDAO {
 		try {
 			conn = factory.getConnection();
 			ps = conn.prepareStatement("INSERT INTO missions (LSMID, LSUID, title, description,"
-					+ "trackerVal, trackerGoal, unit, startDate, endDate, complete, priority) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+					+ "trackerVal, trackerGoal, unit, startDate, endDate, complete, priority, pointsEarned) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
 			ps.setString(1, LSMIDGen);
 			ps.setString(2, mbean.getLSUID());
 			ps.setString(3, mbean.getTitle());
@@ -40,6 +40,7 @@ public class MissionDAO {
 			ps.setDate(9, new java.sql.Date(mbean.getEndDate().getTime()));
 			ps.setBoolean(10, mbean.isMissionComplete());
 			ps.setString(11, mbean.getPriority().getPriority());
+			ps.setBoolean(12, mbean.isPointsEarned());
 			ps.executeUpdate();
 			ps.close();
 			return DatabaseTool.getLastInsert(conn);
@@ -101,7 +102,7 @@ public class MissionDAO {
 		try {
 			conn = factory.getConnection();
 			ps = conn.prepareStatement("UPDATE missions SET title = ?, startDate = ?, "
-					+ " endDate = ?, complete = ?, description = ?, trackerVal = ?, trackerGoal = ?, unit = ?, priority = ? WHERE LSMID = ? AND LSUID = ? ");
+					+ " endDate = ?, complete = ?, description = ?, trackerVal = ?, trackerGoal = ?, unit = ?, priority = ?, pointsEarned = ? WHERE LSMID = ? AND LSUID = ? ");
 			ps.setString(1, missionbean.getTitle());
 			ps.setDate(2, new java.sql.Date(missionbean.getStartDate().getTime()));
 			ps.setDate(3, new java.sql.Date(missionbean.getEndDate().getTime()));
@@ -111,8 +112,9 @@ public class MissionDAO {
 			ps.setInt(7, missionbean.getTrackerGoal());
 			ps.setString(8, missionbean.getUnits());
 			ps.setString(9, missionbean.getPriority().getPriority());
-			ps.setString(10, missionbean.getLSMID());
-			ps.setString(11, missionbean.getLSUID());
+			ps.setBoolean(10, missionbean.isPointsEarned());
+			ps.setString(11, missionbean.getLSMID());
+			ps.setString(12, missionbean.getLSUID());
 			ps.executeUpdate();
 			ps.close();
 		} catch (SQLException e) {

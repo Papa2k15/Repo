@@ -43,6 +43,7 @@ public class MissionLoader implements BeanLoader<MissionBean> {
 			System.out.println("HSD");
 			throw new SQLException(e.getMessage());
 		}
+		mBean.setPointsEarned(rs.getBoolean("pointsEarned"));
 		return mBean;
 	}
 

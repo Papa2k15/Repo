@@ -39,6 +39,8 @@ public class MissionBean {
 
 	private Priority priority = Priority.LOW;
 	
+	private boolean pointsEarned = false;
+	
 	/**
 	 * @param LSUID
 	 * @param title
@@ -195,6 +197,20 @@ public class MissionBean {
 	
 	public void setPriority(Priority priority){
 		this.priority = priority;
+	}
+
+	/**
+	 * @return the pointsEarned
+	 */
+	public boolean isPointsEarned() {
+		return pointsEarned;
+	}
+
+	/**
+	 * @param pointsEarned the pointsEarned to set
+	 */
+	public void setPointsEarned(boolean pointsEarned) {
+		this.pointsEarned = pointsEarned;
 	}
 	
 }

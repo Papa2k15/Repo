@@ -1,34 +1,35 @@
 package ludum.vita.reward;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.TimerTask;
-import java.util.Timer;
 
 public class TimeObserver extends Thread{
-	
+
+	private static final long MIN_CHECK = 60000;
 	private long timeRemaining;
-	private Date end;
-	
+
 	public TimeObserver() {
-		Calendar c = Calendar.getInstance();
-		c.add(Calendar.DATE, 1);
-		end = new D
-		timeRemaining = new Date().getTime() - end.getTime();
+		timeRemaining = 24-Calendar.HOUR_OF_DAY;
 	}
 
 	public static void main(String[] args){
 		TimeObserver t = new TimeObserver();
 		t.start();
-        System.out.println("Daily started");
+		System.out.println("Daily started");
 	}
 
 	@Override
 	public void run() {
 		while(true){
-			timeRemaining = new Date().getTime() - end.getTime();
-			System.out.println(new SimpleDateFormat("HH:mm:ss").format(new Date(timeRemaining)));
+			timeRemaining = 24-Calendar.HOUR_OF_DAY;
+			if(timeRemaining == 0){
+
+			}
+			try {
+				Thread.sleep(MIN_CHECK);
+			} catch (InterruptedException e) {
+				System.out.println(e.getMessage());
+			}
+
 		}
 	}
 }

@@ -10,7 +10,8 @@ unit,
 startDate,
 endDate,	
 complete,
-priority)
+priority,
+pointsEarned)
 VALUES (
 'X1',
 '28cf1e5615f9a36b98084f30336c6a19554baead',
@@ -22,7 +23,8 @@ VALUES (
 '1993-10-01',
 '1970-01-01',
 false,
-'high');
+'high',
+false);
 
 /*Inserting mission2 for Gregory Daniels*/
 INSERT INTO missions(
@@ -36,7 +38,8 @@ unit,
 startDate,
 endDate,	
 complete,
-priority)
+priority,
+pointsEarned)
 VALUES (
 'X2',
 '28cf1e5615f9a36b98084f30336c6a19554baead',
@@ -48,7 +51,8 @@ VALUES (
 '2000-10-01',
 '1970-01-01',
 false,
-'low');
+'low',
+false);
 
 /*Inserting mission3 for Gregory Daniels*/
 INSERT INTO missions(
@@ -74,4 +78,5 @@ VALUES (
 '2000-10-01',
 '2010-01-10',
 true,
-'normal');
+'normal',
+true);

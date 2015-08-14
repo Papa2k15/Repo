@@ -26,18 +26,7 @@ public class PointsManager {
 	private static int missionLength(Date start, Date end){
 		long length = start.getTime() - end.getTime();
 		int points = 0;
-		if (TimeObserver.nextDay(length)){
-			points += DAY_POINTS;
-		} 
-		if (TimeObserver.nextWeek(length)){
-			points += WEEK_POINTS;
-		} 
-		if (TimeObserver.nextMonth(length)){
-			points += MONTH_POINTS;
-		} 
-		if (TimeObserver.nextYear(length)) {
-			points += YEAR_POINTS;
-		} 
+		// TO-DO
 		return points;
 	}
 	
