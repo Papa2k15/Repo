@@ -16,9 +16,11 @@ public class PointsAction {
 	private MissionDAO missionDAO;
 	private String loggedLSUID;
 	private TimeObserver timeObserver;
+	private PointsBean userPoints;
 	
 	public PointsAction(DatabaseFactory factory, String loggedLSUID) throws Exception{
 		pointsDAO = factory.getPointsDAO();
+		userPoints = pointsDAO.getUserPoints(loggedLSUID);
 		missionDAO = factory.getMissionsDAO();
 		this.loggedLSUID = loggedLSUID;
 		timeObserver = new TimeObserver(pointsDAO, Calendar.getInstance(), loggedLSUID);
@@ -34,12 +36,15 @@ public class PointsAction {
 				missionDAO.updateMission(m);
 			}
 		}
-		PointsBean userPoints = pointsDAO.getUserPoints(loggedLSUID);
 		userPoints.settotal(total);
 		userPoints.setDaily(userPoints.getDaily()+total);
 		userPoints.setWeekly(userPoints.getWeekly()+total);
 		userPoints.setMonthly(userPoints.getMonthly()+total);
 		userPoints.setYearly(userPoints.getYearly()+total);
 		pointsDAO.updateUserPoints(userPoints);
+	}
+	
+	public PointsBean getUserPointsBean(){
+		return userPoints;
 	}
 }

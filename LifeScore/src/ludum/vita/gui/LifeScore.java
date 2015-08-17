@@ -217,7 +217,7 @@ public class LifeScore extends JFrame implements ActionListener {
 				missionPanel = null;
 			}
 			if(homePanel == null){
-				homePanel = new HomePanel();
+				homePanel = new HomePanel(pointsAction);
 				menupnl.add(homePanel);
 			}
 			menupnl.repaint();

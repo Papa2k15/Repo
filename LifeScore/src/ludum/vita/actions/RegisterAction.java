@@ -3,16 +3,21 @@ package ludum.vita.actions;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ludum.vita.beans.PointsBean;
 import ludum.vita.beans.UserBean;
 import ludum.vita.dao.DatabaseFactory;
+import ludum.vita.dao.PointsDAO;
 import ludum.vita.dao.UsersDAO;
 
 public class RegisterAction {
 
+	private static final long ZERO = 0;
 	private UsersDAO users;
+	private PointsDAO points;
 
 	public RegisterAction(DatabaseFactory factory){
 		users = factory.getUsersDAO();
+		points = factory.getPointsDAO();
 	}
 
 	public void register(String firstName, String lastName, String userName, String password, String confirm, String email) throws Exception{
@@ -25,6 +30,7 @@ public class RegisterAction {
 		}
 		if(problems.length() <= 0){
 			users.addUser(newUser);
+			points.addUserPoints(new PointsBean(users.getUser(userName).getLSUID(), ZERO));
 		} else { 
 			throw new IllegalArgumentException(problems);
 		}
