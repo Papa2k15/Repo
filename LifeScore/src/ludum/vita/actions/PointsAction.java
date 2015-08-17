@@ -36,7 +36,7 @@ public class PointsAction {
 				missionDAO.updateMission(m);
 			}
 		}
-		userPoints.settotal(total);
+		userPoints.settotal(userPoints.gettotal()+total);
 		userPoints.setDaily(userPoints.getDaily()+total);
 		userPoints.setWeekly(userPoints.getWeekly()+total);
 		userPoints.setMonthly(userPoints.getMonthly()+total);
