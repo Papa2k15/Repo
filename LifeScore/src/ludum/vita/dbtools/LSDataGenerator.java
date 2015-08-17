@@ -33,6 +33,7 @@ public class LSDataGenerator {
 	public void standardData() throws FileNotFoundException, IOException, SQLException {
 		generateUsers();
 		generateMissions();
+		generatePoints();
 		System.out.println("Operation completed.");
 	}
 
@@ -42,5 +43,9 @@ public class LSDataGenerator {
 
 	public void generateMissions() throws SQLException, FileNotFoundException, IOException{
 		new DBBuilder(factory).executeSQLFile(DIR+"/missions.sql");
+	}
+	
+	public void generatePoints() throws SQLException, FileNotFoundException, IOException{
+		new DBBuilder(factory).executeSQLFile(DIR+"/points.sql");
 	}
 }

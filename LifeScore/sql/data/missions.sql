@@ -66,7 +66,8 @@ unit,
 startDate,
 endDate,	
 complete,
-priority)
+priority,
+pointsEarned)
 VALUES (
 'X3',
 '28cf1e5615f9a36b98084f30336c6a19554baead',

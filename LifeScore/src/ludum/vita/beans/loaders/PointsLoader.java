@@ -23,6 +23,10 @@ public class PointsLoader implements BeanLoader<PointsBean> {
 		pointsBean.setWeekly(rs.getLong("weekly"));
 		pointsBean.setMonthly(rs.getLong("monthly"));
 		pointsBean.setYearly(rs.getLong("yearly"));
+		pointsBean.setdReset(rs.getBoolean("dReset"));
+		pointsBean.setwReset(rs.getBoolean("wReset"));
+		pointsBean.setmReset(rs.getBoolean("mReset"));
+		pointsBean.setyReset(rs.getBoolean("yReset"));
 		return pointsBean;
 	}
 

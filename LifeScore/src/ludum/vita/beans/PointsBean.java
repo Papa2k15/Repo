@@ -14,6 +14,14 @@ public class PointsBean {
 	
 	private long yearly = 0;
 	
+	private boolean dReset = false;
+	
+	private boolean wReset = false;
+	
+	private boolean mReset = false;
+	
+	private boolean yReset = false;
+
 	public PointsBean(String LSUID, long total){
 		this.setLSUID(LSUID);
 		this.settotal(total);
@@ -89,5 +97,37 @@ public class PointsBean {
 	 */
 	public void setYearly(long yearly) {
 		this.yearly = yearly;
+	}
+
+	public boolean isdReset() {
+		return dReset;
+	}
+
+	public void setdReset(boolean dReset) {
+		this.dReset = dReset;
+	}
+
+	public boolean iswReset() {
+		return wReset;
+	}
+
+	public void setwReset(boolean wReset) {
+		this.wReset = wReset;
+	}
+
+	public boolean ismReset() {
+		return mReset;
+	}
+
+	public void setmReset(boolean mReset) {
+		this.mReset = mReset;
+	}
+
+	public boolean isyReset() {
+		return yReset;
+	}
+
+	public void setyReset(boolean yReset) {
+		this.yReset = yReset;
 	}
 }

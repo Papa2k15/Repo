@@ -27,6 +27,7 @@ CREATE TABLE missions(
 	endDate		DATE default '0000-00-00',	
 	complete	BOOLEAN default false,
 	priority    VARCHAR(6),
+	pointsEarned BOOLEAN default false,
 	PRIMARY  KEY (LSMID)
 ) ENGINE=MyISAM; 
 
@@ -37,5 +38,9 @@ CREATE TABLE points(
 	weekly  	BIGINT,
 	monthly  	BIGINT,
 	yearly  	BIGINT,
+	dReset		BOOLEAN default false,
+	wReset		BOOLEAN default false,
+	mReset		BOOLEAN default false,
+	yReset		BOOLEAN default false,
 	PRIMARY KEY (LSUID)
 ) ENGINE=MyISAM;
