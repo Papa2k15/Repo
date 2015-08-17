@@ -95,7 +95,7 @@ public class HomePanel extends JPanel {
 		yearlyScorelbl.setBounds(316, 151, 228, 21);
 		add(yearlyScorelbl);
 		
-		totalScorelbl = new JLabel("<dynamic>");
+		totalScorelbl = new JLabel(points.getUserPointsBean().gettotal()+"");
 		totalScorelbl.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		totalScorelbl.setBounds(315, 49, 228, 21);
 		add(totalScorelbl);

@@ -20,4 +20,4 @@ false,
 false,
 false,
 false
-)
+);
