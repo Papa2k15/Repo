@@ -76,11 +76,55 @@ public class MissionTrackerPanel extends JLayeredPane implements AdjustmentListe
 		initialScrollY = 0;
 		add(mainScroll);
 		addMouseWheelListener(this);
-		
+
 		JLabel missionStatslbl = new JLabel("Mission Stats:");
 		missionStatslbl.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		missionStatslbl.setBounds(10, 77, 106, 21);
 		add(missionStatslbl);
+	}
+
+	//BETA....STILL NEED TO FIGURE THIS OUT
+	public void reconstruct(){
+		//DESTROY
+		for(Component m : getComponents()){
+			if(m instanceof MissionTrackerSlate && !m.isVisible()){
+				remove(m);
+			}
+		}
+		//REBUILD
+		LinkedList<MissionTrackerSlate> temp = new LinkedList<MissionTrackerSlate>();
+		int visibleSlates = 0;
+		try {
+			for(int i = 0; i < missions.size();i++){
+				if(missions.get(i).isVisible()){
+					MissionTrackerSlate m = new MissionTrackerSlate(missions.get(i).getMission(), controller);
+					m.setBackground(new Color(new Random().nextInt(255),new Random().nextInt(255),new Random().nextInt(255)));
+					m.setBounds(10, 47+(i*PANEL_HEIGHT), 506, PANEL_HEIGHT);
+					m.addMouseListener(this);
+					temp.add(m);
+					visibleSlates++;
+					add(m,2,0); //Lower layer
+				}
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, e.getMessage());
+		}
+		missions = temp;
+		remove(mainScroll);
+		mainScroll = new JScrollBar();
+		mainScroll.setUnitIncrement(100);
+		mainScroll.addAdjustmentListener(this);
+		mainScroll.setBounds(526, 47, 17, 323);
+		try {
+			mainScroll.setMaximum(PANEL_HEIGHT*visibleSlates);
+		} catch (Exception e1) {
+			JOptionPane.showMessageDialog(this, e1.getMessage());
+		}
+		initialScrollY = 0;
+		add(mainScroll);
+		repaint();
+		revalidate();
+		updateUI();
 	}
 
 	@Override
@@ -115,7 +159,7 @@ public class MissionTrackerPanel extends JLayeredPane implements AdjustmentListe
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -133,24 +177,24 @@ public class MissionTrackerPanel extends JLayeredPane implements AdjustmentListe
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

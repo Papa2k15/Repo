@@ -30,6 +30,7 @@ public class MissionTrackerSlate extends JPanel implements ActionListener, KeyLi
 	private JLabel startDatelbl;
 	private JLabel endDatelbl;
 	private JLabel completeSticker;
+	private JButton hideButton;
 	
 	/**
 	 * Create the panel.
@@ -42,7 +43,7 @@ public class MissionTrackerSlate extends JPanel implements ActionListener, KeyLi
 		setSize(506,MissionTrackerPanel.PANEL_HEIGHT);
 		JLabel missionTitlelbl = new JLabel(mission.getTitle());
 		missionTitlelbl.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-		missionTitlelbl.setBounds(10, 11, 486, 42);
+		missionTitlelbl.setBounds(10, 11, 400, 42);
 		add(missionTitlelbl);
 		
 		JLabel descriptionlbl = new JLabel("<html><p>"+mission.getDescription()+"</p></html>");
@@ -113,6 +114,11 @@ public class MissionTrackerSlate extends JPanel implements ActionListener, KeyLi
 		endDatelbl.setBounds(10, 214, 200, 25);
 		add(endDatelbl);
 		
+		hideButton = new JButton("hide");
+		hideButton.addActionListener(this);
+		hideButton.setBounds(420, 11, 76, 33);
+		add(hideButton);
+		
 		completeSticker = new JLabel("COMPLETE");
 		completeSticker.setHorizontalAlignment(SwingConstants.CENTER);
 		completeSticker.setBounds(277, 136, 178, 103);
@@ -134,6 +140,11 @@ public class MissionTrackerSlate extends JPanel implements ActionListener, KeyLi
 			increase();
 		} else if (e.getSource() == decreaseButton){
 			decrease();
+		} else if (e.getSource() == hideButton){
+//			this.setVisible(false);
+//			MissionTrackerPanel upper = (MissionTrackerPanel) getParent();
+//			upper.reconstruct();
+//			updateUI();
 		}
 		try {
 			updateValues();

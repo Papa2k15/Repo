@@ -7,7 +7,7 @@ import ludum.vita.dao.PointsDAO;
 
 public class TimeObserver extends Thread{
 
-	private static final long CHECK = 10000;
+	private static final long CHECK = 5000;
 	@SuppressWarnings("unused")
 	private static final long PAUSE = 1000;
 	private PointsDAO pointsHandler;
@@ -23,30 +23,26 @@ public class TimeObserver extends Thread{
 	@Override
 	public void run() {
 		while(true){
-			System.out.println("DAY CHECK");
 			try {
-				if(c.get(Calendar.HOUR_OF_DAY) == 0 && !pointsBean.isdReset()){
+				if(c.getActualMaximum(Calendar.HOUR_OF_DAY)-c.get(Calendar.HOUR_OF_DAY) == 0 && !pointsBean.isdReset()){
 					pointsBean.setDaily(0);
 					pointsBean.setdReset(true);
 				} else {
 					pointsBean.setdReset(false);
 				}
-				System.out.println("WEEK CHECK");
-				if(c.get(Calendar.DAY_OF_WEEK) == 1 && !pointsBean.iswReset()){
+				if(c.getActualMaximum(Calendar.DAY_OF_WEEK)-c.get(Calendar.DAY_OF_WEEK) == 0 && !pointsBean.iswReset()){
 					pointsBean.setWeekly(0);
 					pointsBean.setwReset(true);
 				} else {
 					pointsBean.setwReset(false);
 				}
-				System.out.println("MONTH CHECK");
-				if(c.get(Calendar.WEEK_OF_MONTH) == 1 && !pointsBean.ismReset()){
+				if(c.getActualMaximum(Calendar.DAY_OF_MONTH)-c.get(Calendar.DAY_OF_MONTH) == 0 && !pointsBean.ismReset()){
 					pointsBean.setMonthly(0);
 					pointsBean.setmReset(true);
 				} else {
 					pointsBean.setmReset(false);
 				}
-				System.out.println("YEAR CHECK");
-				if(c.get(Calendar.DAY_OF_YEAR) == 1 && !pointsBean.isyReset()){
+				if(c.getActualMaximum(Calendar.DAY_OF_YEAR)-c.get(Calendar.DAY_OF_YEAR) == 0 && !pointsBean.isyReset()){
 					pointsBean.setYearly(0);
 					pointsBean.setyReset(true);
 				} else {
@@ -54,7 +50,7 @@ public class TimeObserver extends Thread{
 				}
 				pointsHandler.updateUserPoints(pointsBean);
 			} catch (Exception e){
-				System.out.println("ERROR WITH UPDATING");
+				System.out.println("Error connecting to database.");
 			}
 			try {
 				Thread.sleep(CHECK);
