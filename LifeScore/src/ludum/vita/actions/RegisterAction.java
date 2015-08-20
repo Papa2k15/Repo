@@ -11,7 +11,6 @@ import ludum.vita.dao.UsersDAO;
 
 public class RegisterAction {
 
-	private static final long ZERO = 0;
 	private UsersDAO users;
 	private PointsDAO points;
 
@@ -30,7 +29,7 @@ public class RegisterAction {
 		}
 		if(problems.length() <= 0){
 			users.addUser(newUser);
-			points.addUserPoints(new PointsBean(users.getUser(userName).getLSUID(), ZERO));
+			points.addUserPoints(new PointsBean(users.getUser(userName).getLSUID()));
 		} else { 
 			throw new IllegalArgumentException(problems);
 		}
